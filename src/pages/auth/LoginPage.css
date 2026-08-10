@@ -1,0 +1,241 @@
+/* =========================================
+   LOGIN PAGE
+   ========================================= */
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(35, 211, 145, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(20, 160, 110, 0.14),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #04110d 0%,
+      #071c15 45%,
+      #0b2c21 100%
+    );
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =========================================
+   EFECTOS DECORATIVOS
+   ========================================= */
+
+.login-page::before,
+.login-page::after {
+  content: "";
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(2px);
+}
+
+.login-page::before {
+  width: 280px;
+  height: 280px;
+
+  top: -100px;
+  left: -80px;
+
+  background: rgba(46, 213, 153, 0.08);
+}
+
+.login-page::after {
+  width: 350px;
+  height: 350px;
+
+  right: -130px;
+  bottom: -140px;
+
+  background: rgba(24, 170, 116, 0.08);
+}
+
+
+/* =========================================
+   CONTENEDOR
+   ========================================= */
+
+.login-page-content {
+  width: 100%;
+  max-width: 460px;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================
+   TARJETA
+   ========================================= */
+
+.login-page-card {
+  width: 100%;
+
+  padding: 42px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 28px;
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  animation: loginCardAppear 0.6s ease;
+}
+
+
+/* =========================================
+   ENCABEZADO
+   ========================================= */
+
+.login-page-header {
+  text-align: center;
+
+  margin-bottom: 30px;
+}
+
+.login-page-icon {
+  width: 68px;
+  height: 68px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #28cf91,
+    #12865e
+  );
+
+  box-shadow:
+    0 12px 30px rgba(30, 201, 139, 0.22);
+
+  font-size: 28px;
+}
+
+.login-page-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  letter-spacing: -0.7px;
+}
+
+.login-page-header p {
+  margin: 9px 0 0;
+
+  color: #9eb5ac;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   PIE DE PÁGINA
+   ========================================= */
+
+.login-page-footer {
+  margin-top: 25px;
+
+  text-align: center;
+
+  color: #718b81;
+
+  font-size: 12px;
+}
+
+
+/* =========================================
+   ANIMACIÓN
+   ========================================= */
+
+@keyframes loginCardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .login-page {
+    padding: 20px;
+  }
+
+  .login-page-card {
+    padding: 30px 22px;
+
+    border-radius: 22px;
+  }
+
+  .login-page-header h1 {
+    font-size: 26px;
+  }
+
+  .login-page-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 17px;
+
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-page {
+    padding: 14px;
+  }
+
+  .login-page-card {
+    padding: 25px 18px;
+  }
+}

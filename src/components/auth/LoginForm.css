@@ -1,0 +1,166 @@
+/* LoginForm.css */
+
+.login-form-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: linear-gradient(135deg, #071a14, #0d3328, #123f32);
+}
+
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+
+  color: white;
+}
+
+/* Título */
+
+.login-form h2 {
+  margin: 0 0 8px;
+  text-align: center;
+
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.login-form-subtitle {
+  margin: 0 0 30px;
+  text-align: center;
+
+  color: #b7c9c2;
+  font-size: 14px;
+}
+
+/* Grupos */
+
+.login-form-group {
+  margin-bottom: 22px;
+}
+
+.login-form-group label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #e7f5ef;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Inputs */
+
+.login-form-group input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+
+  outline: none;
+
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+
+  font-size: 15px;
+
+  transition: all 0.25s ease;
+}
+
+.login-form-group input::placeholder {
+  color: #8ea49c;
+}
+
+.login-form-group input:focus {
+  border-color: #43d39e;
+  background: rgba(0, 0, 0, 0.3);
+
+  box-shadow: 0 0 0 3px rgba(67, 211, 158, 0.12);
+}
+
+/* Mensaje de error */
+
+.login-form-error {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.35);
+
+  color: #ffb4bb;
+
+  font-size: 14px;
+}
+
+/* Botón */
+
+.login-form button {
+  width: 100%;
+  height: 52px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #28c98a, #159b6b);
+  color: white;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.login-form button:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(135deg, #35d99a, #18ad78);
+
+  box-shadow: 0 10px 25px rgba(30, 201, 139, 0.25);
+}
+
+.login-form button:active {
+  transform: translateY(0);
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 480px) {
+  .login-form-container {
+    padding: 15px;
+  }
+
+  .login-form {
+    padding: 30px 22px;
+    border-radius: 20px;
+  }
+
+  .login-form h2 {
+    font-size: 26px;
+  }
+}
