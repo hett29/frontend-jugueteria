@@ -1,0 +1,59 @@
+.hero-banner {
+  margin: 0 10px;
+
+  min-height: 175px;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #49228f,
+    #7046b8
+  );
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.hero-content {
+  color: white;
+  z-index: 2;
+}
+
+.hero-content h1 {
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.hero-content p {
+  font-size: 15px;
+  margin: 0 0 15px;
+}
+
+.hero-content button {
+  border: none;
+
+  background: #ffca28;
+
+  padding: 9px 15px;
+
+  border-radius: 20px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.hero-toy {
+  font-size: 100px;
+  margin-right: 5px;
+}
