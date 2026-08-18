@@ -1,3 +1,4 @@
+
 export interface Product {
   id: number;
   nombre: string;
@@ -12,14 +13,14 @@ export const products: Product[] = [
     nombre: "Muñeca Princesa",
     categoria: "Muñecas",
     precio: 120,
-    imagen: "/images/muneca.png",
+    imagen: "/images/princesa.png",
   },
   {
     id: 2,
     nombre: "Carro de control remoto",
     categoria: "Vehículos",
     precio: 150,
-    imagen: "/images/carro.png",
+    imagen: "/images/carro.jpg",
   },
   {
     id: 3,
@@ -33,7 +34,7 @@ export const products: Product[] = [
     nombre: "Juego de construcción",
     categoria: "Construcción",
     precio: 95,
-    imagen: "/images/bloques.png",
+    imagen: "/images/construc.jpg",
   },
   {
     id: 5,
@@ -47,6 +48,6 @@ export const products: Product[] = [
     nombre: "Set de cocina",
     categoria: "Juegos",
     precio: 110,
-    imagen: "/images/cocina.png",
+    imagen: "/images/cocina.jpg",
   },
 ];
