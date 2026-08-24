@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authRepository } from "../repositories/authRepository";
@@ -27,7 +27,17 @@ function HomePage() {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [notification, setNotification] = useState("");
 
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  useEffect(() => {
+    if (!notification) return undefined;
+
+    const timeoutId = window.setTimeout(() => setNotification(""), 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [notification]);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Filtrar productos
@@ -50,6 +60,9 @@ function HomePage() {
 
       return [...currentItems, { product, quantity: 1 }];
     });
+
+    setNotification(`${product.nombre} se agregó al carrito`);
+
   };
 
   const handleDecreaseProduct = (productId: number) => {
@@ -68,6 +81,13 @@ function HomePage() {
 
   return (
     <div className="home-page">
+
+      {notification && (
+        <div className="cart-notification" role="status" aria-live="polite">
+          <span aria-hidden="true">✓</span>
+          {notification}
+        </div>
+      )}
 
       {/* =========================
           NAVBAR
