@@ -38,6 +38,7 @@ function HomePage() {
 
     return () => window.clearTimeout(timeoutId);
   }, [notification]);
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Filtrar productos
   const filteredProducts = products.filter((product) =>
@@ -59,7 +60,9 @@ function HomePage() {
 
       return [...currentItems, { product, quantity: 1 }];
     });
+
     setNotification(`${product.nombre} se agregó al carrito`);
+
   };
 
   const handleDecreaseProduct = (productId: number) => {
