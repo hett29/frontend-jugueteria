@@ -66,3 +66,13 @@
   justify-content: center;
   align-items: center;
 }
+
+.navbar-cart {
+  position: relative;
+
+  border: none;
+  background: transparent;
+
+  font-size: 25px;
+  cursor: pointer;
+}
