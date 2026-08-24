@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,52 +24,83 @@ function HomePage() {
   // Buscador
   const [search, setSearch] = useState("");
 
+  // Carrito
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [notification, setNotification] = useState("");
 
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  // Cantidad total de productos en el carrito
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
+  // Ocultar notificación después de 3 segundos
   useEffect(() => {
-    if (!notification) return undefined;
+    if (!notification) return;
 
-    const timeoutId = window.setTimeout(() => setNotification(""), 3000);
+    const timeoutId = window.setTimeout(() => {
+      setNotification("");
+    }, 3000);
 
     return () => window.clearTimeout(timeoutId);
   }, [notification]);
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Filtrar productos
   const filteredProducts = products.filter((product) =>
     product.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Agregar producto
+  // Agregar producto al carrito
   const handleAddProduct = (product: Product) => {
     setCartItems((currentItems) => {
-      const existingItem = currentItems.find((item) => item.product.id === product.id);
+      const existingItem = currentItems.find(
+        (item) => item.product.id === product.id
+      );
 
       if (existingItem) {
         return currentItems.map((item) =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item
         );
       }
 
-      return [...currentItems, { product, quantity: 1 }];
+      return [
+        ...currentItems,
+        {
+          product,
+          quantity: 1,
+        },
+      ];
     });
 
     setNotification(`${product.nombre} se agregó al carrito`);
-
   };
 
+  // Disminuir cantidad del producto
   const handleDecreaseProduct = (productId: number) => {
-    setCartItems((currentItems) => currentItems.flatMap((item) => {
-      if (item.product.id !== productId) return [item];
-      if (item.quantity === 1) return [];
-      return [{ ...item, quantity: item.quantity - 1 }];
-    }));
+    setCartItems((currentItems) =>
+      currentItems.flatMap((item) => {
+        if (item.product.id !== productId) {
+          return [item];
+        }
+
+        if (item.quantity === 1) {
+          return [];
+        }
+
+        return [
+          {
+            ...item,
+            quantity: item.quantity - 1,
+          },
+        ];
+      })
+    );
   };
 
   // Cerrar sesión
@@ -82,16 +112,19 @@ function HomePage() {
   return (
     <div className="home-page">
 
+      {/* Notificación */}
       {notification && (
-        <div className="cart-notification" role="status" aria-live="polite">
+        <div
+          className="cart-notification"
+          role="status"
+          aria-live="polite"
+        >
           <span aria-hidden="true">✓</span>
           {notification}
         </div>
       )}
 
-      {/* =========================
-          NAVBAR
-      ========================== */}
+      {/* NAVBAR */}
       <Navbar
         cartCount={cartCount}
         user={user}
@@ -99,11 +132,8 @@ function HomePage() {
         onCartClick={() => setIsCartOpen(true)}
       />
 
-      {/* =========================
-          CONTENIDO PRINCIPAL
-      ========================== */}
+      {/* CONTENIDO PRINCIPAL */}
       <main>
-
         {isCartOpen ? (
           <Cart
             items={cartItems}
@@ -113,18 +143,24 @@ function HomePage() {
           />
         ) : (
           <>
-            <SearchBar search={search} setSearch={setSearch} />
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+            />
+
             <HeroBanner />
+
             <Categories />
-            <Products products={filteredProducts} onAdd={handleAddProduct} />
+
+            <Products
+              products={filteredProducts}
+              onAdd={handleAddProduct}
+            />
           </>
         )}
-
       </main>
 
-      {/* =========================
-          NAVEGACIÓN INFERIOR
-      ========================== */}
+      {/* NAVEGACIÓN INFERIOR */}
       <BottomNav
         isCartOpen={isCartOpen}
         onCartClick={() => setIsCartOpen(true)}
