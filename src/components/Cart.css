@@ -1,0 +1,102 @@
+.cart-section {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px 25px 120px;
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.cart-eyebrow {
+  margin: 0 0 4px;
+  color: #e83e83;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cart-header h2 { margin: 0; }
+
+.cart-header button,
+.empty-cart button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #e83e83;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cart-items,
+.empty-cart,
+.cart-total {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.cart-items { overflow: hidden; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.cart-item:last-child { border-bottom: none; }
+
+.cart-item img {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  background: #fff0f5;
+  object-fit: contain;
+}
+
+.cart-item-details { flex: 1; }
+.cart-item-details h3, .cart-item-details p { margin: 0; }
+.cart-item-details h3 { font-size: 16px; }
+.cart-item-details p { margin-top: 7px; color: #e83e83; font-weight: 700; }
+
+.quantity-controls { display: flex; align-items: center; gap: 10px; }
+.quantity-controls button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: #fde7f0;
+  color: #e83e83;
+  font-size: 20px;
+  cursor: pointer;
+}
+.quantity-controls span { min-width: 14px; text-align: center; font-weight: 700; }
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding: 20px;
+  font-size: 18px;
+}
+.cart-total strong { color: #e83e83; }
+
+.empty-cart { padding: 55px 20px; text-align: center; }
+.empty-cart span { display: block; font-size: 48px; }
+.empty-cart h3 { margin: 12px 0 6px; }
+.empty-cart p { margin: 0 0 20px; color: #6b7280; }
+
+@media (max-width: 600px) {
+  .cart-section { padding: 25px 15px 105px; }
+  .cart-header { align-items: flex-start; flex-direction: column; }
+  .cart-item { gap: 10px; }
+  .cart-item img { width: 58px; height: 58px; }
+  .cart-item-details h3 { font-size: 14px; }
+  .quantity-controls { gap: 6px; }
+}

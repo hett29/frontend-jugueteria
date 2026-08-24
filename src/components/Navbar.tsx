@@ -11,12 +11,14 @@ interface NavbarProps {
   cartCount: number;
   user?: User | null;
   onLogout?: () => void;
+  onCartClick: () => void;
 }
 
 function Navbar({
   cartCount,
   user,
   onLogout,
+  onCartClick,
 }: NavbarProps) {
   return (
     <header className="navbar">
@@ -60,7 +62,12 @@ function Navbar({
         )}
 
         {/* CARRITO */}
-        <div className="navbar-cart">
+        <button
+          type="button"
+          className="navbar-cart"
+          onClick={onCartClick}
+          aria-label={`Ver carrito (${cartCount} productos)`}
+        >
 
           🛒
 
@@ -70,7 +77,7 @@ function Navbar({
             </span>
           )}
 
-        </div>
+        </button>
 
         {/* CERRAR SESIÓN */}
         {user && onLogout && (
