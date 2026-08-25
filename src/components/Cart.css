@@ -87,6 +87,25 @@
 }
 .cart-total strong { color: #e83e83; }
 
+.proceed-to-payment {
+  width: 100%;
+  margin-top: 18px;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 20px;
+  background: #e83e83;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.proceed-to-payment:hover { background: #d63374; }
+.proceed-to-payment:focus-visible {
+  outline: 3px solid #166534;
+  outline-offset: 3px;
+}
+
 .empty-cart { padding: 55px 20px; text-align: center; }
 .empty-cart span { display: block; font-size: 48px; }
 .empty-cart h3 { margin: 12px 0 6px; }
