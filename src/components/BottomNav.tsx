@@ -23,11 +23,6 @@ function BottomNav({
         <span>Inicio</span>
       </button>
 
-      <button type="button">
-        ▦
-        <span>Categorías</span>
-      </button>
-
       <button
         type="button"
         className={isCartOpen ? "active" : ""}
@@ -39,7 +34,7 @@ function BottomNav({
 
       <button type="button">
         🧾
-        <span>Pedidos</span>
+        <span>Metodo de Pago</span>
       </button>
 
       <button type="button">
