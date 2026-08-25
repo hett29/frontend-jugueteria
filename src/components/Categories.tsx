@@ -1,32 +1,6 @@
+import { Link } from "react-router-dom";
+import { categories } from "../data/categories";
 import "./Categories.css";
-
-const categories = [
-  {
-    nombre: "Muñecas",
-    icono: "👧",
-    color: "pink",
-  },
-  {
-    nombre: "Vehículos",
-    icono: "🚗",
-    color: "green",
-  },
-  {
-    nombre: "Construcción",
-    icono: "🧩",
-    color: "yellow",
-  },
-  {
-    nombre: "Juegos",
-    icono: "🎮",
-    color: "orange",
-  },
-  {
-    nombre: "Más",
-    icono: "•••",
-    color: "blue",
-  },
-];
 
 function Categories() {
   return (
@@ -35,13 +9,14 @@ function Categories() {
       <div className="section-header">
         <h2>Categorías</h2>
 
-        <button>Ver todas</button>
+        <Link to="/categorias/mas">Ver más</Link>
       </div>
 
       <div className="categories-list">
 
         {categories.map((category) => (
-          <div
+          <Link
+            to={`/categorias/${category.id}`}
             className="category"
             key={category.nombre}
           >
@@ -54,7 +29,7 @@ function Categories() {
             <span>
               {category.nombre}
             </span>
-          </div>
+          </Link>
         ))}
 
       </div>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authRepository } from "../repositories/authRepository";
@@ -10,8 +10,9 @@ import HeroBanner from "../components/HeroBanner";
 import Categories from "../components/Categories";
 import Products from "../components/Products";
 import BottomNav from "../components/BottomNav";
+import Cart, { type CartItem } from "../components/Cart";
 
-import { products } from "../data/products";
+import { products, type Product } from "../data/products";
 
 import "./HomePage.css";
 
@@ -24,8 +25,19 @@ function HomePage() {
   // Buscador
   const [search, setSearch] = useState("");
 
-  // Cantidad de productos en carrito
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [notification, setNotification] = useState("");
+
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  useEffect(() => {
+    if (!notification) return undefined;
+
+    const timeoutId = window.setTimeout(() => setNotification(""), 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [notification]);
 
   // Filtrar productos
   const filteredProducts = products.filter((product) =>
@@ -33,8 +45,29 @@ function HomePage() {
   );
 
   // Agregar producto
-  const handleAddProduct = () => {
-    setCartCount((prev) => prev + 1);
+  const handleAddProduct = (product: Product) => {
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find((item) => item.product.id === product.id);
+
+      if (existingItem) {
+        return currentItems.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      }
+
+      return [...currentItems, { product, quantity: 1 }];
+    });
+    setNotification(`${product.nombre} se agregó al carrito`);
+  };
+
+  const handleDecreaseProduct = (productId: number) => {
+    setCartItems((currentItems) => currentItems.flatMap((item) => {
+      if (item.product.id !== productId) return [item];
+      if (item.quantity === 1) return [];
+      return [{ ...item, quantity: item.quantity - 1 }];
+    }));
   };
 
   // Cerrar sesión
@@ -46,6 +79,13 @@ function HomePage() {
   return (
     <div className="home-page">
 
+      {notification && (
+        <div className="cart-notification" role="status" aria-live="polite">
+          <span aria-hidden="true">✓</span>
+          {notification}
+        </div>
+      )}
+
       {/* =========================
           NAVBAR
       ========================== */}
@@ -53,6 +93,7 @@ function HomePage() {
         cartCount={cartCount}
         user={user}
         onLogout={handleLogout}
+        onCartClick={() => setIsCartOpen(true)}
       />
 
       {/* =========================
@@ -60,30 +101,32 @@ function HomePage() {
       ========================== */}
       <main>
 
-        {/* Buscador */}
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-        />
-
-        {/* Banner */}
-        <HeroBanner />
-
-        {/* Categorías */}
-        <Categories />
-
-        {/* Productos */}
-        <Products
-          products={filteredProducts}
-          onAdd={handleAddProduct}
-        />
+        {isCartOpen ? (
+          <Cart
+            items={cartItems}
+            onIncrease={handleAddProduct}
+            onDecrease={handleDecreaseProduct}
+            onContinueShopping={() => setIsCartOpen(false)}
+          />
+        ) : (
+          <>
+            <SearchBar search={search} setSearch={setSearch} />
+            <HeroBanner />
+            <Categories />
+            <Products products={filteredProducts} onAdd={handleAddProduct} />
+          </>
+        )}
 
       </main>
 
       {/* =========================
           NAVEGACIÓN INFERIOR
       ========================== */}
-      <BottomNav />
+      <BottomNav
+        isCartOpen={isCartOpen}
+        onCartClick={() => setIsCartOpen(true)}
+        onHomeClick={() => setIsCartOpen(false)}
+      />
 
     </div>
   );
