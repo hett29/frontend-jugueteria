@@ -11,6 +11,7 @@ interface CartProps {
   onIncrease: (product: Product) => void;
   onDecrease: (productId: number) => void;
   onContinueShopping: () => void;
+  onProceedToPayment: () => void;
 }
 
 function Cart({
@@ -18,6 +19,7 @@ function Cart({
   onIncrease,
   onDecrease,
   onContinueShopping,
+  onProceedToPayment,
 }: CartProps) {
   const total = items.reduce(
     (sum, { product, quantity }) => sum + product.precio * quantity,
@@ -80,6 +82,14 @@ function Cart({
             <span>Total</span>
             <strong>Bs. {total}</strong>
           </div>
+
+          <button
+            type="button"
+            className="proceed-to-payment"
+            onClick={onProceedToPayment}
+          >
+            Continuar al método de pago
+          </button>
         </>
       )}
     </section>

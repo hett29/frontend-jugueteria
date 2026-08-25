@@ -10,6 +10,7 @@ import Categories from "../components/Categories";
 import Products from "../components/Products";
 import BottomNav from "../components/BottomNav";
 import Cart, { type CartItem } from "../components/Cart";
+import PaymentMethods from "../components/PaymentMethods";
 
 import { products, type Product } from "../data/products";
 
@@ -27,6 +28,7 @@ function HomePage() {
   // Carrito
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [notification, setNotification] = useState("");
 
   // Cantidad total de productos en el carrito
@@ -129,17 +131,29 @@ function HomePage() {
         cartCount={cartCount}
         user={user}
         onLogout={handleLogout}
-        onCartClick={() => setIsCartOpen(true)}
+        onCartClick={() => {
+          setIsCartOpen(true);
+          setIsPaymentOpen(false);
+        }}
       />
 
       {/* CONTENIDO PRINCIPAL */}
       <main>
-        {isCartOpen ? (
+        {isPaymentOpen ? (
+          <PaymentMethods
+            items={cartItems}
+            onBackToCart={() => setIsPaymentOpen(false)}
+          />
+        ) : isCartOpen ? (
           <Cart
             items={cartItems}
             onIncrease={handleAddProduct}
             onDecrease={handleDecreaseProduct}
-            onContinueShopping={() => setIsCartOpen(false)}
+            onContinueShopping={() => {
+              setIsCartOpen(false);
+              setIsPaymentOpen(false);
+            }}
+            onProceedToPayment={() => setIsPaymentOpen(true)}
           />
         ) : (
           <>
@@ -162,9 +176,15 @@ function HomePage() {
 
       {/* NAVEGACIÓN INFERIOR */}
       <BottomNav
-        isCartOpen={isCartOpen}
-        onCartClick={() => setIsCartOpen(true)}
-        onHomeClick={() => setIsCartOpen(false)}
+        isCartOpen={isCartOpen || isPaymentOpen}
+        onCartClick={() => {
+          setIsCartOpen(true);
+          setIsPaymentOpen(false);
+        }}
+        onHomeClick={() => {
+          setIsCartOpen(false);
+          setIsPaymentOpen(false);
+        }}
       />
 
     </div>

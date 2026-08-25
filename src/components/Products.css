@@ -12,3 +12,17 @@
 
   margin-top: 15px;
 }
+
+.product-category {
+  scroll-margin-top: 20px;
+  margin-top: 28px;
+}
+
+.product-category h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+#catalogo {
+  scroll-margin-top: 20px;
+}

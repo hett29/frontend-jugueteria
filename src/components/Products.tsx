@@ -1,4 +1,5 @@
 import type { Product } from "../data/products";
+import { categories } from "../data/categories";
 import ProductCard from "./ProductCard";
 import "./Products.css";
 
@@ -12,27 +13,39 @@ function Products({
   onAdd,
 }: ProductsProps) {
   return (
-    <section className="products-section">
+    <section className="products-section" id="catalogo">
 
       <div className="section-header">
-        <h2>Productos destacados</h2>
-
-        <button>
-          Ver todos
-        </button>
+        <h2>Productos por categoría</h2>
       </div>
 
-      <div className="products-grid">
+      {categories.map((category) => {
+        const categoryProducts = products.filter(category.includes);
 
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAdd={onAdd}
-          />
-        ))}
+        if (categoryProducts.length === 0) {
+          return null;
+        }
 
-      </div>
+        return (
+          <section
+            className="product-category"
+            id={category.id}
+            key={category.id}
+          >
+            <h3>{category.nombre}</h3>
+
+            <div className="products-grid">
+              {categoryProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAdd={onAdd}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })}
 
     </section>
   );

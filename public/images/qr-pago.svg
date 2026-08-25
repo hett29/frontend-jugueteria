@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 290" role="img" aria-labelledby="title">
+  <title id="title">Código QR de pago</title>
+  <rect width="290" height="290" rx="18" fill="#fff"/>
+  <g fill="#202020">
+    <path d="M25 25h70v70H25zM35 35v50h50V35zM45 45h30v30H45zM195 25h70v70h-70zM205 35v50h50V35zM215 45h30v30h-30zM25 195h70v70H25zM35 205v50h50v-50zM45 215h30v30H45z"/>
+    <path d="M115 25h10v10h-10zm20 0h20v10h-20zm30 0h10v30h-10zm-50 20h10v20h-10zm20 0h10v10h-10zm20 10h20v10h-20zm-40 20h30v10h-30zm40 10h10v20h-10zm20 0h10v10h-10zm-70 40h20v10h-20zm30 0h10v20h-10zm20 0h30v10h-30zm40 0h10v30h-10zm20 0h20v10h-20zm-80 20h10v10h-10zm20 0h20v20h-20zm30 0h10v10h-10zm-60 20h10v20h-10zm20 0h10v10h-10zm40 0h20v10h-20zm30 0h10v30h-10zm20 10h10v10h-10zm-100 20h30v10h-30zm40 0h10v20h-10zm20 0h10v10h-10zm20 0h30v10h-30zm-100 20h10v20h-10zm20 0h20v10h-20zm30 0h10v20h-10zm30 0h10v10h-10zm20 0h20v20h-20zm-100 30h20v10h-20zm30 0h10v10h-10zm20 0h30v10h-30zm40 0h10v20h-10zm20 0h10v10h-10z"/>
+  </g>
+</svg>
