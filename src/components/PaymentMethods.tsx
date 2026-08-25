@@ -16,12 +16,14 @@ const paymentMethods = [
 
 function PaymentMethods({ items, onBackToCart }: PaymentMethodsProps) {
   const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].id);
+
   const [cardNumber, setCardNumber] = useState("");
   const [cardPassword, setCardPassword] = useState("");
   const total = items.reduce(
     (sum, { product, quantity }) => sum + product.precio * quantity,
     0,
   );
+
 
   const handleCardNumberChange = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 16);
