@@ -1,22 +1,26 @@
 import "./BottomNav.css";
 
 interface BottomNavProps {
-  isCartOpen: boolean;
+  activeView: "home" | "cart" | "payment" | "account";
   onCartClick: () => void;
   onHomeClick: () => void;
+  onPaymentClick: () => void;
+  onAccountClick: () => void;
 }
 
 function BottomNav({
-  isCartOpen,
+  activeView,
   onCartClick,
   onHomeClick,
+  onPaymentClick,
+  onAccountClick,
 }: BottomNavProps) {
   return (
     <nav className="bottom-nav">
 
       <button
         type="button"
-        className={isCartOpen ? "" : "active"}
+        className={activeView === "home" ? "active" : ""}
         onClick={onHomeClick}
       >
         🏠
@@ -25,19 +29,27 @@ function BottomNav({
 
       <button
         type="button"
-        className={isCartOpen ? "active" : ""}
+        className={activeView === "cart" ? "active" : ""}
         onClick={onCartClick}
       >
         🛒
         <span>Carrito</span>
       </button>
 
-      <button type="button">
+      <button
+        type="button"
+        className={activeView === "payment" ? "active" : ""}
+        onClick={onPaymentClick}
+      >
         🧾
         <span>Metodo de Pago</span>
       </button>
 
-      <button type="button">
+      <button
+        type="button"
+        className={activeView === "account" ? "active" : ""}
+        onClick={onAccountClick}
+      >
         👤
         <span>Cuenta</span>
       </button>

@@ -11,8 +11,11 @@ import Products from "../components/Products";
 import BottomNav from "../components/BottomNav";
 import Cart, { type CartItem } from "../components/Cart";
 import PaymentMethods from "../components/PaymentMethods";
+import Account from "../components/Account";
 
 import { products, type Product } from "../data/products";
+import { purchaseRepository } from "../repositories/purchaseRepository";
+import { createPurchaseItems } from "../types/purchase";
 
 import "./HomePage.css";
 
@@ -29,7 +32,10 @@ function HomePage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [notification, setNotification] = useState("");
+
+  const purchases = user ? purchaseRepository.getByUserId(user.id) : [];
 
   // Cantidad total de productos en el carrito
   const cartCount = cartItems.reduce(
@@ -111,6 +117,17 @@ function HomePage() {
     navigate("/login", { replace: true });
   };
 
+  const handleConfirmPurchase = (paymentMethod: string) => {
+    if (!user || cartItems.length === 0) return;
+
+    purchaseRepository.create(user.id, createPurchaseItems(cartItems), paymentMethod);
+    setCartItems([]);
+    setIsPaymentOpen(false);
+    setIsCartOpen(false);
+    setIsAccountOpen(true);
+    setNotification("Tu compra fue registrada correctamente");
+  };
+
   return (
     <div className="home-page">
 
@@ -134,6 +151,7 @@ function HomePage() {
         onCartClick={() => {
           setIsCartOpen(true);
           setIsPaymentOpen(false);
+          setIsAccountOpen(false);
         }}
       />
 
@@ -143,7 +161,10 @@ function HomePage() {
           <PaymentMethods
             items={cartItems}
             onBackToCart={() => setIsPaymentOpen(false)}
+            onConfirm={handleConfirmPurchase}
           />
+        ) : isAccountOpen ? (
+          <Account user={user} purchases={purchases} />
         ) : isCartOpen ? (
           <Cart
             items={cartItems}
@@ -152,6 +173,7 @@ function HomePage() {
             onContinueShopping={() => {
               setIsCartOpen(false);
               setIsPaymentOpen(false);
+              setIsAccountOpen(false);
             }}
             onProceedToPayment={() => setIsPaymentOpen(true)}
           />
@@ -176,14 +198,28 @@ function HomePage() {
 
       {/* NAVEGACIÓN INFERIOR */}
       <BottomNav
-        isCartOpen={isCartOpen || isPaymentOpen}
+        activeView={
+          isAccountOpen ? "account" : isPaymentOpen ? "payment" : isCartOpen ? "cart" : "home"
+        }
         onCartClick={() => {
           setIsCartOpen(true);
           setIsPaymentOpen(false);
+          setIsAccountOpen(false);
         }}
         onHomeClick={() => {
           setIsCartOpen(false);
           setIsPaymentOpen(false);
+          setIsAccountOpen(false);
+        }}
+        onPaymentClick={() => {
+          setIsCartOpen(false);
+          setIsPaymentOpen(true);
+          setIsAccountOpen(false);
+        }}
+        onAccountClick={() => {
+          setIsCartOpen(false);
+          setIsPaymentOpen(false);
+          setIsAccountOpen(true);
         }}
       />
 
