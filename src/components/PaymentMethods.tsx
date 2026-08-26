@@ -6,6 +6,7 @@ import "./PaymentMethods.css";
 interface PaymentMethodsProps {
   items: CartItem[];
   onBackToCart: () => void;
+  onConfirm: (paymentMethod: string) => void;
 }
 
 const paymentMethods = [
@@ -14,7 +15,7 @@ const paymentMethods = [
   { id: "cash", icon: "💵", title: "Efectivo", description: "Paga al momento de recoger tu pedido." },
 ];
 
-function PaymentMethods({ items, onBackToCart }: PaymentMethodsProps) {
+function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps) {
   const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].id);
 
   const [cardNumber, setCardNumber] = useState("");
@@ -104,6 +105,15 @@ function PaymentMethods({ items, onBackToCart }: PaymentMethodsProps) {
         <span>Total a pagar</span>
         <strong>Bs. {total}</strong>
       </div>
+
+      <button
+        type="button"
+        className="confirm-payment"
+        onClick={() => onConfirm(selectedMethod)}
+        disabled={items.length === 0}
+      >
+        Confirmar compra
+      </button>
     </section>
   );
 }
