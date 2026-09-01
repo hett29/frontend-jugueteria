@@ -17,12 +17,10 @@ function LoginForm({ error, onSubmit }: LoginFormProps) {
 
     const normalizedCarnet = carnet.trim();
 
-    // Validar campos
     if (!normalizedCarnet || !password) {
       return;
     }
 
-    // Enviar los datos al componente padre
     onSubmit({
       carnet: normalizedCarnet,
       password,
@@ -32,10 +30,12 @@ function LoginForm({ error, onSubmit }: LoginFormProps) {
   return (
     <div className="login-form-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Iniciar sesión</h2>
+
+        {/* ENCABEZADO */}
+        <h2>🧸 Mundo Mágico</h2>
 
         <p className="login-form-subtitle">
-          Ingresa tus datos para continuar
+          ¡Bienvenido! Inicia sesión para descubrir nuestros juguetes
         </p>
 
         {/* Carnet de identidad */}
@@ -89,6 +89,7 @@ function LoginForm({ error, onSubmit }: LoginFormProps) {
         <button type="submit">
           Ingresar
         </button>
+
       </form>
     </div>
   );
