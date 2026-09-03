@@ -8,9 +8,30 @@
   },
   {
     "id": "user-2",
-    "name": "Usuario de prueba",
+    "name": "WILLY",
     "carnet": "7654321",
     "password": "usuario123",
+    "role": "USUARIO"
+  },
+  {
+    "id": "user-3",
+    "name": "HECTOR",
+    "carnet": "1212",
+    "password": "usuario12",
+    "role": "USUARIO"
+  },
+  {
+    "id": "user-4",
+    "name": "CRISTOFFER",
+    "carnet": "1313",
+    "password": "usuario13",
+    "role": "USUARIO"
+  },
+  {
+    "id": "user-5",
+    "name": "ANGELA",
+    "carnet": "1414",
+    "password": "usuario14",
     "role": "USUARIO"
   }
 ]
