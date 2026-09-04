@@ -267,7 +267,7 @@ export const products: Product[] = [
     nombre: "Rompecabezas Infantil",
     categoria: "Juegos",
     precio: 65,
-    imagen: "/images/rompecabezas.png",
+    imagen: "/images/jue1.jpg",
   },
 
   {
@@ -275,7 +275,7 @@ export const products: Product[] = [
     nombre: "Juego de Memoria",
     categoria: "Juegos",
     precio: 55,
-    imagen: "/images/memoria.png",
+    imagen: "/images/jue2.jpg",
   },
 
   {
@@ -283,7 +283,7 @@ export const products: Product[] = [
     nombre: "Dominó Infantil",
     categoria: "Juegos",
     precio: 50,
-    imagen: "/images/domino.png",
+    imagen: "/images/jue3.jpg",
   },
 
   {
@@ -291,7 +291,7 @@ export const products: Product[] = [
     nombre: "Juego de Cartas",
     categoria: "Juegos",
     precio: 45,
-    imagen: "/images/cartas.png",
+    imagen: "/images/jue4.jpg",
   },
 
   {
@@ -299,7 +299,7 @@ export const products: Product[] = [
     nombre: "Bingo Infantil",
     categoria: "Juegos",
     precio: 60,
-    imagen: "/images/bingo.png",
+    imagen: "/images/jue5.jpg",
   },
 
   {
@@ -307,7 +307,7 @@ export const products: Product[] = [
     nombre: "Ajedrez Infantil",
     categoria: "Juegos",
     precio: 80,
-    imagen: "/images/ajedrez.png",
+    imagen: "/images/jue6.jpg",
   },
 
   {
@@ -315,7 +315,7 @@ export const products: Product[] = [
     nombre: "Damas",
     categoria: "Juegos",
     precio: 70,
-    imagen: "/images/damas.png",
+    imagen: "/images/jue7.jpg",
   },
 
   {
@@ -323,7 +323,7 @@ export const products: Product[] = [
     nombre: "Juego de Pesca",
     categoria: "Juegos",
     precio: 75,
-    imagen: "/images/pesca.png",
+    imagen: "/images/jue8.jpg",
   },
 
   {
@@ -331,7 +331,7 @@ export const products: Product[] = [
     nombre: "Juego de Mesa Infantil",
     categoria: "Juegos",
     precio: 95,
-    imagen: "/images/juego-mesa.png",
+    imagen: "/images/jue9.jpg",
   },
 
   // ==================== OTROS ====================
@@ -357,7 +357,7 @@ export const products: Product[] = [
     nombre: "Pelota Infantil",
     categoria: "Otros",
     precio: 50,
-    imagen: "/images/pelota.png",
+    imagen: "/images/ot1.jpg",
   },
 
   {
@@ -365,7 +365,7 @@ export const products: Product[] = [
     nombre: "Pistola de Burbujas",
     categoria: "Otros",
     precio: 70,
-    imagen: "/images/burbujas.png",
+    imagen: "/images/ot2.jpg",
   },
 
   {
@@ -373,7 +373,7 @@ export const products: Product[] = [
     nombre: "Tambor Infantil",
     categoria: "Otros",
     precio: 85,
-    imagen: "/images/tambor.png",
+    imagen: "/images/ot3.jpg",
   },
 
   {
@@ -381,7 +381,7 @@ export const products: Product[] = [
     nombre: "Cometa Infantil",
     categoria: "Otros",
     precio: 60,
-    imagen: "/images/cometa.png",
+    imagen: "/images/ot4.jpg",
   },
 
   {
@@ -389,7 +389,7 @@ export const products: Product[] = [
     nombre: "Pizarra Mágica",
     categoria: "Otros",
     precio: 90,
-    imagen: "/images/pizarra.png",
+    imagen: "/images/ot5.jpg",
   },
 
   {
@@ -397,7 +397,7 @@ export const products: Product[] = [
     nombre: "Kit de Arte",
     categoria: "Otros",
     precio: 100,
-    imagen: "/images/kit-arte.png",
+    imagen: "/images/ot6.jpg",
   },
 
   {
@@ -405,7 +405,7 @@ export const products: Product[] = [
     nombre: "Instrumentos Musicales",
     categoria: "Otros",
     precio: 120,
-    imagen: "/images/instrumentos.png",
+    imagen: "/images/ot7.jpg",
   },
 
   {
@@ -413,6 +413,6 @@ export const products: Product[] = [
     nombre: "Dinosaurio de Juguete",
     categoria: "Otros",
     precio: 80,
-    imagen: "/images/dinosaurio.png",
+    imagen: "/images/ot9.jpg",
   },
 ];
