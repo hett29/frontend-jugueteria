@@ -150,6 +150,32 @@
   font-weight: 700;
 }
 
+.payment-success {
+  padding-top: 85px;
+  text-align: center;
+}
+
+.payment-success-icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.payment-success > p:not(.payment-eyebrow) {
+  margin: 12px auto 0;
+  max-width: 430px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+
 .confirm-payment {
   width: 100%; margin-top: 18px; padding: 16px 20px; border: 0; border-radius: 12px;
   background: #e83e83; color: #fff; font: inherit; font-weight: 700; cursor: pointer;
