@@ -125,7 +125,7 @@ function HomePage() {
     setIsPaymentOpen(false);
     setIsCartOpen(false);
     setIsAccountOpen(true);
-    setNotification("Tu compra fue registrada correctamente");
+    setNotification("¡Compra exitosa! Tu pago fue registrado correctamente.");
   };
 
   return (

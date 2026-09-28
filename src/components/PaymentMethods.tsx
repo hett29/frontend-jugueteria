@@ -20,6 +20,8 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
 
   const [cardNumber, setCardNumber] = useState("");
   const [cardPassword, setCardPassword] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [amountError, setAmountError] = useState("");
   const total = items.reduce(
     (sum, { product, quantity }) => sum + product.precio * quantity,
     0,
@@ -29,6 +31,18 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
   const handleCardNumberChange = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 16);
     setCardNumber(digits.replace(/(.{4})/g, "$1 ").trim());
+  };
+
+  const handleConfirmPayment = () => {
+    const amount = Number(enteredAmount.trim().replace(",", "."));
+
+    if (!enteredAmount.trim() || !Number.isFinite(amount) || amount !== total) {
+      setAmountError(`El monto ingresado debe ser exactamente Bs. ${total}.`);
+      return;
+    }
+
+    setAmountError("");
+    onConfirm(selectedMethod);
   };
 
   return (
@@ -106,10 +120,35 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
         <strong>Bs. {total}</strong>
       </div>
 
+      <div className="payment-amount">
+        <label htmlFor="payment-amount">
+          Confirma el monto a pagar
+          <input
+            id="payment-amount"
+            type="text"
+            inputMode="decimal"
+            placeholder={`Bs. ${total}`}
+            value={enteredAmount}
+            onChange={(event) => {
+              setEnteredAmount(event.target.value);
+              setAmountError("");
+            }}
+            aria-describedby={amountError ? "payment-amount-error" : undefined}
+            aria-invalid={Boolean(amountError)}
+          />
+        </label>
+        <p>Ingresa el mismo monto que aparece en el total para confirmar tu compra.</p>
+        {amountError && (
+          <p id="payment-amount-error" className="payment-amount-error" role="alert">
+            {amountError}
+          </p>
+        )}
+      </div>
+
       <button
         type="button"
         className="confirm-payment"
-        onClick={() => onConfirm(selectedMethod)}
+        onClick={handleConfirmPayment}
         disabled={items.length === 0}
       >
         Confirmar compra
