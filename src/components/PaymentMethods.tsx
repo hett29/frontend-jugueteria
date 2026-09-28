@@ -5,21 +5,30 @@ import "./PaymentMethods.css";
 
 interface PaymentMethodsProps {
   items: CartItem[];
+  isPurchaseConfirmed: boolean;
   onBackToCart: () => void;
   onConfirm: (paymentMethod: string) => void;
+  onViewPurchases: () => void;
 }
 
 const paymentMethods = [
-  { id: "qr", icon: "▣", title: "Pago con QR", description: "Escanea el código al confirmar tu pedido." },
+  { id: "qr", icon: "▣", title: "Pago con QR", description: "Escanea el código y paga desde tu banca móvil." },
   { id: "card", icon: "💳", title: "Tarjeta", description: "Débito o crédito." },
-  { id: "cash", icon: "💵", title: "Efectivo", description: "Paga al momento de recoger tu pedido." },
 ];
 
-function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps) {
+function PaymentMethods({
+  items,
+  isPurchaseConfirmed,
+  onBackToCart,
+  onConfirm,
+  onViewPurchases,
+}: PaymentMethodsProps) {
   const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].id);
 
   const [cardNumber, setCardNumber] = useState("");
   const [cardPassword, setCardPassword] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [amountError, setAmountError] = useState("");
   const total = items.reduce(
     (sum, { product, quantity }) => sum + product.precio * quantity,
     0,
@@ -30,6 +39,37 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
     const digits = value.replace(/\D/g, "").slice(0, 16);
     setCardNumber(digits.replace(/(.{4})/g, "$1 ").trim());
   };
+
+  const handleConfirmPayment = () => {
+    if (selectedMethod === "qr") {
+      onConfirm(selectedMethod);
+      return;
+    }
+
+    const amount = Number(enteredAmount.trim().replace(",", "."));
+
+    if (!enteredAmount.trim() || !Number.isFinite(amount) || amount !== total) {
+      setAmountError(`El monto ingresado debe ser exactamente Bs. ${total}.`);
+      return;
+    }
+
+    setAmountError("");
+    onConfirm(selectedMethod);
+  };
+
+  if (isPurchaseConfirmed) {
+    return (
+      <section className="payment-section payment-success" aria-live="polite">
+        <span className="payment-success-icon" aria-hidden="true">✓</span>
+        <p className="payment-eyebrow">Pago registrado</p>
+        <h2>¡Compra confirmada!</h2>
+        <p>Tu pedido fue registrado correctamente. Gracias por comprar con nosotros.</p>
+        <button type="button" className="confirm-payment" onClick={onViewPurchases}>
+          Ver mis compras
+        </button>
+      </section>
+    );
+  }
 
   return (
     <section className="payment-section" aria-labelledby="payment-title">
@@ -65,7 +105,7 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
           <img src="/images/qr-pago.svg" alt="Vista previa del código QR de pago" />
           <div>
             <h3>Código QR de pago</h3>
-            <p>Inserta aquí el código QR de tu cuenta para que tus clientes puedan realizar el pago.</p>
+            <p>Escanea el código y coloca el monto desde la aplicación de tu banca móvil.</p>
           </div>
         </div>
       )}
@@ -106,13 +146,40 @@ function PaymentMethods({ items, onBackToCart, onConfirm }: PaymentMethodsProps)
         <strong>Bs. {total}</strong>
       </div>
 
+      {selectedMethod === "card" && (
+        <div className="payment-amount">
+          <label htmlFor="payment-amount">
+            Confirma el monto a pagar
+            <input
+              id="payment-amount"
+              type="text"
+              inputMode="decimal"
+              placeholder={`Bs. ${total}`}
+              value={enteredAmount}
+              onChange={(event) => {
+                setEnteredAmount(event.target.value);
+                setAmountError("");
+              }}
+              aria-describedby={amountError ? "payment-amount-error" : undefined}
+              aria-invalid={Boolean(amountError)}
+            />
+          </label>
+          <p>Ingresa el mismo monto que aparece en el total para confirmar tu compra.</p>
+          {amountError && (
+            <p id="payment-amount-error" className="payment-amount-error" role="alert">
+              {amountError}
+            </p>
+          )}
+        </div>
+      )}
+
       <button
         type="button"
         className="confirm-payment"
-        onClick={() => onConfirm(selectedMethod)}
+        onClick={handleConfirmPayment}
         disabled={items.length === 0}
       >
-        Confirmar compra
+        {selectedMethod === "qr" ? "Ya realicé el pago" : "Confirmar compra"}
       </button>
     </section>
   );

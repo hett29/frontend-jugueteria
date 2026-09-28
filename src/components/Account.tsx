@@ -10,7 +10,6 @@ interface AccountProps {
 const paymentMethodLabels: Record<string, string> = {
   qr: "Pago con QR",
   card: "Tarjeta",
-  cash: "Efectivo",
 };
 
 function Account({ user, purchases }: AccountProps) {

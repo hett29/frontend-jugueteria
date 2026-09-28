@@ -32,6 +32,7 @@ function HomePage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isPurchaseConfirmed, setIsPurchaseConfirmed] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [notification, setNotification] = useState("");
 
@@ -118,14 +119,19 @@ function HomePage() {
   };
 
   const handleConfirmPurchase = (paymentMethod: string) => {
-    if (!user || cartItems.length === 0) return;
+    if (!user) {
+      setNotification("Inicia sesión para confirmar tu compra.");
+      navigate("/login");
+      return;
+    }
+
+    if (cartItems.length === 0) return;
 
     purchaseRepository.create(user.id, createPurchaseItems(cartItems), paymentMethod);
     setCartItems([]);
-    setIsPaymentOpen(false);
     setIsCartOpen(false);
-    setIsAccountOpen(true);
-    setNotification("Tu compra fue registrada correctamente");
+    setIsPurchaseConfirmed(true);
+    setNotification("¡Compra exitosa! Tu pago fue registrado correctamente.");
   };
 
   return (
@@ -160,8 +166,17 @@ function HomePage() {
         {isPaymentOpen ? (
           <PaymentMethods
             items={cartItems}
-            onBackToCart={() => setIsPaymentOpen(false)}
+            isPurchaseConfirmed={isPurchaseConfirmed}
+            onBackToCart={() => {
+              setIsPaymentOpen(false);
+              setIsPurchaseConfirmed(false);
+            }}
             onConfirm={handleConfirmPurchase}
+            onViewPurchases={() => {
+              setIsPaymentOpen(false);
+              setIsPurchaseConfirmed(false);
+              setIsAccountOpen(true);
+            }}
           />
         ) : isAccountOpen ? (
           <Account user={user} purchases={purchases} />
@@ -175,7 +190,10 @@ function HomePage() {
               setIsPaymentOpen(false);
               setIsAccountOpen(false);
             }}
-            onProceedToPayment={() => setIsPaymentOpen(true)}
+            onProceedToPayment={() => {
+              setIsPaymentOpen(true);
+              setIsPurchaseConfirmed(false);
+            }}
           />
         ) : (
           <>
@@ -214,6 +232,7 @@ function HomePage() {
         onPaymentClick={() => {
           setIsCartOpen(false);
           setIsPaymentOpen(true);
+          setIsPurchaseConfirmed(false);
           setIsAccountOpen(false);
         }}
         onAccountClick={() => {
