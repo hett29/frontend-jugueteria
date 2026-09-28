@@ -174,31 +174,6 @@ function PaymentMethods({
           )}
         </div>
       )}
-      <div className="payment-amount">
-        <label htmlFor="payment-amount">
-          Confirma el monto a pagar
-          <input
-            id="payment-amount"
-            type="text"
-            inputMode="decimal"
-            placeholder={`Bs. ${total}`}
-            value={enteredAmount}
-            onChange={(event) => {
-              setEnteredAmount(event.target.value);
-              setAmountError("");
-            }}
-            aria-describedby={amountError ? "payment-amount-error" : undefined}
-            aria-invalid={Boolean(amountError)}
-          />
-        </label>
-        <p>Ingresa el mismo monto que aparece en el total para confirmar tu compra.</p>
-        {amountError && (
-          <p id="payment-amount-error" className="payment-amount-error" role="alert">
-            {amountError}
-          </p>
-        )}
-      </div>
-
       <button
         type="button"
         className="confirm-payment"
