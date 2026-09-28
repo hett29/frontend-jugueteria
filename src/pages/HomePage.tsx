@@ -131,6 +131,8 @@ function HomePage() {
     setCartItems([]);
     setIsCartOpen(false);
     setIsPurchaseConfirmed(true);
+    setIsAccountOpen(true);
+
     setNotification("¡Compra exitosa! Tu pago fue registrado correctamente.");
   };
 
