@@ -76,3 +76,8 @@
 
   cursor: pointer;
 }
+
+.product-card { display: flex; flex-direction: column; }
+.product-image { flex: 0 0 auto; }
+.product-card p { margin-top: auto; padding-top: 2px; }
+.add-product:focus-visible { outline: 3px solid rgba(89,70,210,.35); outline-offset: 3px; }
