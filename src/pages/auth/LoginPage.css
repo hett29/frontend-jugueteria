@@ -310,3 +310,33 @@
     font-size: 24px;
   }
 }
+
+/* Acabado más sobrio y consistente con el resto de la tienda */
+.login-page {
+  background:
+    radial-gradient(circle at 8% 12%, rgba(240,107,130,.13), transparent 24%),
+    radial-gradient(circle at 92% 84%, rgba(89,70,210,.16), transparent 27%),
+    linear-gradient(135deg, #f8f7ff, #f6f8fc 55%, #fff8fa);
+}
+.login-page::before { color: #c8c0ff; }
+.login-page::after { color: #f5a6b5; }
+.login-page-card {
+  border: 1px solid #e8e9f2;
+  border-radius: 26px;
+  box-shadow: 0 24px 70px rgba(37,39,76,.12);
+}
+.login-page-card::before {
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #5946d2, #a69af6, #f06b82);
+}
+.login-page-icon {
+  border-radius: 22px;
+  background: linear-gradient(145deg, #7664e7, #5946d2);
+  box-shadow: 0 10px 24px rgba(89,70,210,.24);
+  transform: none;
+}
+.login-page-header h1 { color: #292744; }
+.login-page-header p, .login-page-footer { color: #777b91; }
+.login-page-header::after { color: #9b91ef; }
