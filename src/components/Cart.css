@@ -130,3 +130,14 @@
 .cart-item-details p, .cart-total strong { color: #5946d2; }
 .quantity-controls button { background: #f0edff; color: #5946d2; }
 .proceed-to-payment:focus-visible { outline-color: rgba(89,70,210,.35); }
+
+
+/* Colores y superficies compartidos con el catálogo */
+.cart-eyebrow { color: #5946d2; }
+.cart-header button, .empty-cart button, .proceed-to-payment { background: #5946d2; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
+.cart-header button:hover, .empty-cart button:hover, .proceed-to-payment:hover { background: #4333ad; box-shadow: 0 8px 18px rgba(89,70,210,.18); transform: translateY(-1px); }
+.cart-items, .empty-cart, .cart-total { border: 1px solid #e8e9f2; box-shadow: 0 8px 24px rgba(37,39,76,.055); }
+.cart-item img { background: #f5f3ff; }
+.cart-item-details p, .cart-total strong { color: #5946d2; }
+.quantity-controls button { background: #f0edff; color: #5946d2; }
+.proceed-to-payment:focus-visible { outline-color: rgba(89,70,210,.35); }
