@@ -57,3 +57,7 @@
   font-size: 100px;
   margin-right: 5px;
 }
+
+/* Compatibilidad visual del banner principal */
+.hero-banner { isolation: isolate; }
+.hero-content button:focus-visible { outline: 3px solid rgba(255,255,255,.8); outline-offset: 4px; }
