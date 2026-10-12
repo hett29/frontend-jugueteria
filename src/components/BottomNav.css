@@ -51,3 +51,5 @@
 
   font-weight: bold;
 }
+
+.bottom-nav button:focus-visible { outline: 3px solid rgba(89,70,210,.35); outline-offset: 1px; }
