@@ -187,3 +187,12 @@
   .payment-section { padding: 25px 15px 105px; }
   .qr-payment { align-items: flex-start; flex-direction: column; }
 }
+
+
+.payment-eyebrow, .back-to-cart, .payment-total strong { color: #5946d2; }
+.payment-option:has(input:checked) { border-color: #8e82e8; background: #fbfaff; }
+.payment-option input { accent-color: #5946d2; }
+.payment-details, .payment-total, .payment-amount { border: 1px solid #e8e9f2; box-shadow: 0 8px 24px rgba(37,39,76,.055); }
+.card-payment input:focus, .payment-amount input:focus { border-color: #8e82e8; outline-color: rgba(89,70,210,.18); }
+.confirm-payment { background: #5946d2; transition: background .2s ease, transform .2s ease; }
+.confirm-payment:hover { background: #4333ad; transform: translateY(-1px); }
