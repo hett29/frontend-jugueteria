@@ -76,3 +76,13 @@
   font-size: 25px;
   cursor: pointer;
 }
+
+
+/* Ajustes del encabezado para una identidad visual uniforme */
+.navbar { gap: 18px; }
+.navbar-logo { display: flex; align-items: center; }
+.navbar-user { display: flex; align-items: center; }
+.navbar-cart:focus-visible, .logout-button:focus-visible { outline: 3px solid rgba(89,70,210,.35); outline-offset: 3px; }
+@media (max-width: 520px) {
+  .navbar { gap: 8px; }
+}
