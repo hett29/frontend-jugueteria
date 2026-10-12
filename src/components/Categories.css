@@ -95,3 +95,7 @@
 .category-icon.blue {
   background: #c7e4fa;
 }
+
+
+.category { text-align: center; }
+.category-icon { flex: 0 0 auto; }
