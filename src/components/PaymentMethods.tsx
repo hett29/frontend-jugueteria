@@ -12,8 +12,8 @@ interface PaymentMethodsProps {
 }
 
 const paymentMethods = [
-  { id: "qr", icon: "▣", title: "Pago con QR", description: "Escanea el código y paga desde tu banca móvil." },
-  { id: "card", icon: "💳", title: "Tarjeta", description: "Débito o crédito." },
+  { id: "qr", icon: "▣", title: "QR de demostración", description: "Vista de prueba; no procesa pagos reales." },
+  { id: "card", icon: "💳", title: "Tarjeta (prueba)", description: "Solo para probar el flujo de la tienda." },
 ];
 
 function PaymentMethods({
@@ -34,19 +34,16 @@ function PaymentMethods({
     0,
   );
 
-
   const handleCardNumberChange = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 16);
     setCardNumber(digits.replace(/(.{4})/g, "$1 ").trim());
   };
 
   const handleConfirmPayment = () => {
-
     if (selectedMethod === "qr") {
       onConfirm(selectedMethod);
       return;
     }
-
 
     const amount = Number(enteredAmount.trim().replace(",", "."));
 
@@ -63,9 +60,9 @@ function PaymentMethods({
     return (
       <section className="payment-section payment-success" aria-live="polite">
         <span className="payment-success-icon" aria-hidden="true">✓</span>
-        <p className="payment-eyebrow">Pago registrado</p>
-        <h2>¡Compra confirmada!</h2>
-        <p>Tu pedido fue registrado correctamente. Gracias por comprar con nosotros.</p>
+        <p className="payment-eyebrow">Pedido de prueba registrado</p>
+        <h2>¡Pedido registrado!</h2>
+        <p>El pedido se guardó para probar la tienda. Este sitio todavía no verifica pagos reales; el QR es solo ilustrativo.</p>
         <button type="button" className="confirm-payment" onClick={onViewPurchases}>
           Ver mis compras
         </button>
@@ -79,9 +76,9 @@ function PaymentMethods({
         ← Volver al carrito
       </button>
 
-      <p className="payment-eyebrow">Último paso</p>
+      <p className="payment-eyebrow">Último paso · modo de prueba</p>
       <h2 id="payment-title">Método de pago</h2>
-      <p className="payment-description">Elige cómo deseas pagar tu pedido.</p>
+      <p className="payment-description">Elige una opción para probar el registro del pedido. No se realizará ningún cobro.</p>
 
       <div className="payment-options" role="radiogroup" aria-label="Métodos de pago">
         {paymentMethods.map((method) => (
@@ -104,24 +101,25 @@ function PaymentMethods({
 
       {selectedMethod === "qr" && (
         <div className="payment-details qr-payment" aria-live="polite">
-          <img src="/images/qr-pago.svg" alt="Vista previa del código QR de pago" />
+          <img src="/images/qr-pago.svg" alt="Código QR gráfico de demostración, no válido para realizar pagos" />
           <div>
-            <h3>Código QR de pago</h3>
-            <p>Escanea el código y coloca el monto desde la aplicación de tu banca móvil.</p>
+            <h3>QR de demostración</h3>
+            <p>Este gráfico no está vinculado a una cuenta bancaria y no sirve para pagar. No envíes dinero usando este código.</p>
           </div>
         </div>
       )}
 
       {selectedMethod === "card" && (
-        <form className="payment-details card-payment">
-          <h3>Datos de la tarjeta</h3>
+        <form className="payment-details card-payment" onSubmit={(event) => event.preventDefault()}>
+          <h3>Datos de prueba</h3>
+          <p>Usa datos ficticios. No ingreses números de tarjeta ni contraseñas bancarias reales.</p>
           <label htmlFor="card-number">
-            Número de tarjeta
+            Número de tarjeta ficticio
             <input
               id="card-number"
               type="text"
               inputMode="numeric"
-              autoComplete="cc-number"
+              autoComplete="off"
               placeholder="0000 0000 0000 0000"
               value={cardNumber}
               onChange={(event) => handleCardNumberChange(event.target.value)}
@@ -129,13 +127,12 @@ function PaymentMethods({
             />
           </label>
           <label htmlFor="card-password">
-            Contraseña de pago
+            Clave ficticia (opcional)
             <input
               id="card-password"
               type="password"
-              inputMode="numeric"
-              autoComplete="current-password"
-              placeholder="Ingresa tu contraseña"
+              autoComplete="off"
+              placeholder="No uses tu clave real"
               value={cardPassword}
               onChange={(event) => setCardPassword(event.target.value)}
             />
@@ -144,14 +141,14 @@ function PaymentMethods({
       )}
 
       <div className="payment-total">
-        <span>Total a pagar</span>
+        <span>Total del pedido (sin cobro)</span>
         <strong>Bs. {total}</strong>
       </div>
 
       {selectedMethod === "card" && (
         <div className="payment-amount">
           <label htmlFor="payment-amount">
-            Confirma el monto a pagar
+            Confirma el monto de prueba
             <input
               id="payment-amount"
               type="text"
@@ -166,7 +163,7 @@ function PaymentMethods({
               aria-invalid={Boolean(amountError)}
             />
           </label>
-          <p>Ingresa el mismo monto que aparece en el total para confirmar tu compra.</p>
+          <p>Este dato solo comprueba el flujo de la tienda; no procesa un pago.</p>
           {amountError && (
             <p id="payment-amount-error" className="payment-amount-error" role="alert">
               {amountError}
@@ -180,7 +177,7 @@ function PaymentMethods({
         onClick={handleConfirmPayment}
         disabled={items.length === 0}
       >
-        {selectedMethod === "qr" ? "Ya realicé el pago" : "Confirmar compra"}
+        Registrar pedido de prueba
       </button>
     </section>
   );
