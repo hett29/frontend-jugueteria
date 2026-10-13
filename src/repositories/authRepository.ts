@@ -38,8 +38,11 @@ export const authRepository = {
 
   getAllUsers(): User[] {
     const profiles = getProfiles();
-    return users.map(({ password: _password, ...user }) => ({
-      ...user,
+    return users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      carnet: user.carnet,
+      role: user.role,
       ...(profiles[user.id] ?? {}),
     }));
   },
