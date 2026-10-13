@@ -1,0 +1,44 @@
+.admin-dashboard { padding:34px 0 110px; color:#292744; }
+.admin-dashboard-header { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:24px; }
+.admin-dashboard-header h1 { margin:0; font-size:clamp(23px,3vw,32px); letter-spacing:-.7px; }
+.admin-dashboard-header p { margin:7px 0 0; color:#777b91; line-height:1.5; }
+.admin-dashboard-header button { border:0; border-radius:11px; padding:12px 15px; background:#292744; color:white; font-weight:700; cursor:pointer; white-space:nowrap; }
+.admin-eyebrow { color:#5946d2!important; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+.admin-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:22px; }
+.admin-stats article { display:grid; gap:8px; padding:18px; border:1px solid #e8e9f2; border-radius:16px; background:#fff; }
+.admin-stats span { color:#777b91; font-size:13px; }
+.admin-stats strong { color:#5946d2; font-size:28px; }
+.admin-panel { margin-top:20px; padding:22px; border:1px solid #e8e9f2; border-radius:20px; background:#fff; box-shadow:0 8px 24px rgba(37,39,76,.045); }
+.admin-panel-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px; }
+.admin-panel-heading h2 { margin:0; font-size:20px; }
+.admin-panel-heading p { margin:6px 0 0; color:#777b91; font-size:13px; }
+.admin-panel-heading label { display:flex; align-items:center; gap:8px; color:#777b91; font-size:13px; }
+.admin-panel-heading select { padding:9px; border:1px solid #dedfee; border-radius:9px; background:#fff; color:#292744; }
+.admin-order-list { display:grid; gap:14px; }
+.admin-order-card { padding:17px; border:1px solid #e9e8f4; border-radius:15px; background:#fcfbff; }
+.admin-order-top { display:flex; justify-content:space-between; gap:12px; }
+.admin-order-top h3,.admin-order-top p { margin:0; }
+.admin-order-top h3 { font-size:16px; }
+.admin-order-top p { margin-top:5px; color:#777b91; font-size:12px; }
+.admin-order-top strong { color:#5946d2; white-space:nowrap; }
+.admin-customer { display:grid; gap:5px; margin:14px 0; padding:12px; border-radius:11px; background:#f1efff; font-size:13px; }
+.admin-customer span { color:#555875; }
+.admin-order-card ul { padding-left:20px; color:#555875; font-size:13px; line-height:1.8; }
+.admin-order-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.admin-order-actions button { border:0; border-radius:9px; padding:10px 12px; background:#5946d2; color:#fff; font-size:12px; font-weight:750; cursor:pointer; }
+.admin-order-actions button:disabled { opacity:.45; cursor:not-allowed; }
+.admin-order-actions .reject-order { background:#bd3654; }
+.admin-order-actions .reset-order { background:#666981; }
+.admin-empty { padding:35px 12px; text-align:center; color:#777b91; }
+.admin-empty span { font-size:36px; }
+.admin-empty h3 { margin:10px 0 5px; color:#292744; }
+.admin-empty p { margin:0; font-size:13px; }
+.admin-user-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.admin-user-list article { display:grid; gap:5px; padding:13px; border:1px solid #ecebf4; border-radius:12px; font-size:13px; }
+.admin-user-list span { color:#777b91; }
+.admin-demo-note { padding:14px 16px; border:1px solid #f0dba4; border-radius:12px; background:#fff9e8; color:#785c17; font-size:12px; line-height:1.6; }
+.order-status { display:inline-block; margin:12px 0 0; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; }
+.order-status-pendiente { background:#fff4d9; color:#946200; }
+.order-status-aceptado { background:#e4f8eb; color:#176b39; }
+.order-status-rechazado { background:#fff0f2; color:#b42343; }
+@media(max-width:760px) { .admin-dashboard { padding-top:24px; } .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .admin-dashboard-header { align-items:flex-start; flex-direction:column; } .admin-panel { padding:15px; } .admin-panel-heading { align-items:flex-start; flex-direction:column; } .admin-user-list { grid-template-columns:1fr; } }
