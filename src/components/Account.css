@@ -30,3 +30,17 @@
 .account-eyebrow, .purchase-card-header strong { color: #5946d2; }
 .account-profile, .empty-purchases, .purchase-card { border: 1px solid #e8e9f2; box-shadow: 0 8px 24px rgba(37,39,76,.055); }
 .account-avatar, .purchase-heading span { background: #f0edff; color: #5946d2; }
+
+.delivery-location-form { display:grid; gap:10px; margin-top:18px; padding:20px; border:1px solid #e8e4ff; border-radius:16px; background:#fff; }
+.delivery-location-form h3,.delivery-location-form p { margin:0; }
+.delivery-location-form h3 { color:#292744; }
+.delivery-location-form p { color:#777b91; font-size:13px; line-height:1.5; }
+.delivery-location-form label { margin-top:4px; color:#454563; font-size:13px; font-weight:700; }
+.delivery-location-form input,.delivery-location-form select { width:100%; min-height:44px; padding:10px 12px; border:1px solid #dedfee; border-radius:10px; background:#fff; color:#292744; font:inherit; }
+.delivery-location-form button { min-height:44px; border:0; border-radius:10px; background:#5946d2; color:#fff; font-weight:700; cursor:pointer; }
+.order-status { display:inline-block; margin:12px 0 0; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; }
+.order-status-pendiente { background:#fff4d9; color:#946200; }
+.order-status-aceptado { background:#e4f8eb; color:#176b39; }
+.order-status-rechazado { background:#fff0f2; color:#b42343; }
+.order-notice { margin:8px 0; color:#555875; font-size:13px; line-height:1.5; }
+.delivery-summary { margin:10px 0 0; color:#5946d2; font-size:13px; font-weight:700; }
