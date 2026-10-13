@@ -4,7 +4,15 @@ import type { DeliveryLocation, Purchase, PurchaseItem, PurchaseStatus } from ".
 const PURCHASES_KEY = "app_purchases";
 
 function getPurchases(): Purchase[] {
-  return storageService.get<Purchase[]>(PURCHASES_KEY) ?? [];
+  const saved = storageService.get<Purchase[]>(PURCHASES_KEY) ?? [];
+  return saved.map((purchase) => ({
+    ...purchase,
+    status: purchase.status ?? "PENDIENTE",
+    deliveryLocation: purchase.deliveryLocation ?? {
+      department: "No especificado",
+      city: "No especificada",
+    },
+  }));
 }
 
 export const purchaseRepository = {
