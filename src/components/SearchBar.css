@@ -34,3 +34,6 @@
 .search-container input::placeholder {
   color: #999;
 }
+
+.search-container input { min-width: 0; }
+.search-container input:focus-visible { outline: none; }

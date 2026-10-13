@@ -25,3 +25,8 @@
 .purchase-card li + li { margin-top: 5px; }
 
 @media (max-width: 600px) { .account-section { padding: 25px 15px 105px; } }
+
+
+.account-eyebrow, .purchase-card-header strong { color: #5946d2; }
+.account-profile, .empty-purchases, .purchase-card { border: 1px solid #e8e9f2; box-shadow: 0 8px 24px rgba(37,39,76,.055); }
+.account-avatar, .purchase-heading span { background: #f0edff; color: #5946d2; }
