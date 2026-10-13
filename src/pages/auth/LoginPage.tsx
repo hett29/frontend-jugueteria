@@ -1,63 +1,60 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-
 import LoginForm from "../../components/auth/LoginForm";
 import { authRepository } from "../../repositories/authRepository";
-
-import type { LoginCredentials } from "../../types/auth";
-
+import type { LoginCredentials, UserRole } from "../../types/auth";
 import "./LoginPage.css";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<UserRole, string>>({ ADMIN: "", USUARIO: "" });
 
-  if (authRepository.isAuthenticated()) {
-    return <Navigate to="/" replace />;
-  }
+  if (authRepository.isAuthenticated()) return <Navigate to="/" replace />;
 
-  const handleLogin = (credentials: LoginCredentials) => {
-    setError("");
-
-    const user = authRepository.login(credentials);
-
+  const handleLogin = (credentials: LoginCredentials, role: UserRole) => {
+    setErrors({ ADMIN: "", USUARIO: "" });
+    const user = authRepository.login(credentials, role);
     if (!user) {
-      setError("El carnet o la contraseña son incorrectos.");
+      setErrors((current) => ({
+        ...current,
+        [role]: role === "ADMIN"
+          ? "Las credenciales no corresponden a una cuenta administradora."
+          : "El carnet o la contraseña de usuario son incorrectos.",
+      }));
       return;
     }
-
     navigate("/", { replace: true });
   };
 
   return (
     <main className="login-page">
-      <div className="login-page-content">
+      <div className="login-page-content login-split-content">
+        <header className="login-page-header">
+          <div className="login-page-icon">🧸</div>
+          <h1>Mundo Mágico</h1>
+          <p>Selecciona el tipo de ingreso para continuar</p>
+        </header>
 
-        <div className="login-page-card">
-
-          <header className="login-page-header">
-            <div className="login-page-icon">
-              🔐
+        <div className="login-panels">
+          <section className="login-page-card login-panel">
+            <div className="login-panel-heading">
+              <span className="login-panel-icon">👤</span>
+              <h2>Ingreso de usuarios</h2>
+              <p>Para comprar y consultar tus pedidos</p>
             </div>
+            <LoginForm role="USUARIO" error={errors.USUARIO} onSubmit={handleLogin} />
+          </section>
 
-            <h1>Bienvenido</h1>
-
-            <p>
-              Inicia sesión para continuar
-            </p>
-          </header>
-
-          <LoginForm
-            error={error}
-            onSubmit={handleLogin}
-          />
-
-          <footer className="login-page-footer">
-            Sistema de acceso seguro
-          </footer>
-
+          <section className="login-page-card login-panel admin-login-panel">
+            <div className="login-panel-heading">
+              <span className="login-panel-icon">🛡️</span>
+              <h2>Ingreso de administradores</h2>
+              <p>Acceso exclusivo para gestionar la juguetería</p>
+            </div>
+            <LoginForm role="ADMIN" error={errors.ADMIN} onSubmit={handleLogin} />
+          </section>
         </div>
-
+        <footer className="login-page-footer">Cada ingreso valida el rol de la cuenta.</footer>
       </div>
     </main>
   );
