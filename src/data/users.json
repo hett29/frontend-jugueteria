@@ -2,8 +2,15 @@
   {
     "id": "user-1",
     "name": "Administrador",
-    "carnet": "1234567",
-    "password": "admin123",
+    "carnet": "13723746",
+    "password": "hector2909",
+    "role": "ADMIN"
+  },
+    {
+    "id": "user-1",
+    "name": "Administrador",
+    "carnet": "13958463",
+    "password": "tofito19",
     "role": "ADMIN"
   },
   {
