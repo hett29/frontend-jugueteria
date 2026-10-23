@@ -36,9 +36,15 @@
 .admin-user-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .admin-user-list article { display:grid; gap:5px; padding:13px; border:1px solid #ecebf4; border-radius:12px; font-size:13px; }
 .admin-user-list span { color:#777b91; }
+.admin-user-filters { display:grid; grid-template-columns:minmax(220px,1.5fr) minmax(200px,1fr) auto; align-items:end; gap:12px; margin:4px 0 12px; }
+.admin-user-filters label { display:grid; gap:7px; color:#555875; font-size:12px; font-weight:700; }
+.admin-user-filters input,.admin-user-filters select { width:100%; min-width:0; box-sizing:border-box; padding:11px 12px; border:1px solid #dedfee; border-radius:10px; background:#fff; color:#292744; font:inherit; font-weight:400; outline:none; }
+.admin-user-filters input:focus,.admin-user-filters select:focus { border-color:#5946d2; box-shadow:0 0 0 3px rgba(89,70,210,.12); }
+.admin-user-clear { border:0; border-radius:10px; padding:11px 13px; background:#f1efff; color:#5946d2; font-weight:700; cursor:pointer; white-space:nowrap; }
+.admin-user-count { margin:0 0 12px; color:#777b91; font-size:12px; }
 .admin-demo-note { padding:14px 16px; border:1px solid #f0dba4; border-radius:12px; background:#fff9e8; color:#785c17; font-size:12px; line-height:1.6; }
 .order-status { display:inline-block; margin:12px 0 0; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; }
 .order-status-pendiente { background:#fff4d9; color:#946200; }
 .order-status-aceptado { background:#e4f8eb; color:#176b39; }
 .order-status-rechazado { background:#fff0f2; color:#b42343; }
-@media(max-width:760px) { .admin-dashboard { padding-top:24px; } .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .admin-dashboard-header { align-items:flex-start; flex-direction:column; } .admin-panel { padding:15px; } .admin-panel-heading { align-items:flex-start; flex-direction:column; } .admin-user-list { grid-template-columns:1fr; } }
+@media(max-width:760px) { .admin-dashboard { padding-top:24px; } .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .admin-dashboard-header { align-items:flex-start; flex-direction:column; } .admin-panel { padding:15px; } .admin-panel-heading { align-items:flex-start; flex-direction:column; } .admin-user-list { grid-template-columns:1fr; } .admin-user-filters { grid-template-columns:1fr; } .admin-user-clear { justify-self:start; } }
