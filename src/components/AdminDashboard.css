@@ -36,7 +36,7 @@
 .admin-user-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .admin-user-list article { display:grid; gap:5px; padding:13px; border:1px solid #ecebf4; border-radius:12px; font-size:13px; }
 .admin-user-list span { color:#777b91; }
-.admin-user-filters { display:grid; grid-template-columns:minmax(220px,1.5fr) minmax(200px,1fr) auto; align-items:end; gap:12px; margin:4px 0 12px; }
+.admin-user-filters { display:grid; grid-template-columns:minmax(220px,1fr) auto; align-items:end; gap:12px; margin:4px 0 12px; }
 .admin-user-filters label { display:grid; gap:7px; color:#555875; font-size:12px; font-weight:700; }
 .admin-user-filters input,.admin-user-filters select { width:100%; min-width:0; box-sizing:border-box; padding:11px 12px; border:1px solid #dedfee; border-radius:10px; background:#fff; color:#292744; font:inherit; font-weight:400; outline:none; }
 .admin-user-filters input:focus,.admin-user-filters select:focus { border-color:#5946d2; box-shadow:0 0 0 3px rgba(89,70,210,.12); }
