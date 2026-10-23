@@ -18,14 +18,10 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const orders = purchaseRepository.getAll();
   const [filter, setFilter] = useState<"TODOS" | PurchaseStatus>("TODOS");
   const [userSearch, setUserSearch] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState("TODOS");
   const filteredOrders = filter === "TODOS" ? orders : orders.filter((order) => order.status === filter);
-  const departments = Array.from(new Set(users.map((user) => user.department).filter((department): department is string => Boolean(department)))).sort((a, b) => a.localeCompare(b, "es"));
   const filteredUsers = users.filter((user) => {
     const search = userSearch.trim().toLocaleLowerCase("es");
-    const matchesSearch = !search || user.name.toLocaleLowerCase("es").includes(search) || user.carnet.toLocaleLowerCase("es").includes(search);
-    const matchesDepartment = departmentFilter === "TODOS" || user.department === departmentFilter;
-    return matchesSearch && matchesDepartment;
+    return search.length > 0 && (user.name.toLocaleLowerCase("es").includes(search) || user.carnet.toLocaleLowerCase("es").includes(search));
   });
   void refresh;
 
@@ -72,15 +68,20 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
         )}
       </section>
       <section className="admin-panel">
-        <div className="admin-panel-heading"><div><h2>Cuentas registradas</h2><p>Busca una cuenta por nombre o carnet y, si quieres, filtra por departamento.</p></div></div>
+        <div className="admin-panel-heading"><div><h2>Cuentas registradas</h2><p>Las cuentas solo aparecerán cuando busques por nombre o carnet de identidad.</p></div></div>
         <div className="admin-user-filters">
-          <label className="admin-user-search"><span>Buscar cuenta</span><input type="search" value={userSearch} onChange={(event) => setUserSearch(event.target.value)} placeholder="Escribe un nombre o carnet..." /></label>
-          <label className="admin-user-department"><span>Departamento</span><select value={departmentFilter} onChange={(event) => setDepartmentFilter(event.target.value)}><option value="TODOS">Todos los departamentos</option>{departments.map((department) => <option key={department} value={department}>{department}</option>)}</select></label>
-          {(userSearch || departmentFilter !== "TODOS") && <button className="admin-user-clear" type="button" onClick={() => { setUserSearch(""); setDepartmentFilter("TODOS"); }}>Limpiar filtros</button>}
+          <label className="admin-user-search"><span>Buscar por nombre o carnet</span><input type="search" value={userSearch} onChange={(event) => setUserSearch(event.target.value)} placeholder="Ej.: Ángela o 1414..." /></label>
+          {userSearch && <button className="admin-user-clear" type="button" onClick={() => setUserSearch("")}>Limpiar búsqueda</button>}
         </div>
-        <p className="admin-user-count">Mostrando {filteredUsers.length} de {users.length} cuentas</p>
-        {filteredUsers.length === 0 ? <div className="admin-empty"><span>🔎</span><h3>No se encontraron cuentas</h3><p>Prueba con otro nombre, carnet o departamento.</p></div> : (
-          <div className="admin-user-list">{filteredUsers.map((user) => <article key={user.id}><strong>{user.name}</strong><span>Carnet: {user.carnet}</span><span>📍 {user.city && user.department ? `${user.city}, ${user.department}` : "Ubicación aún no registrada"}</span></article>)}</div>
+        {!userSearch.trim() ? (
+          <div className="admin-empty"><span>🔎</span><h3>Busca una cuenta registrada</h3><p>Escribe el nombre o carnet de la persona para consultar sus datos.</p></div>
+        ) : filteredUsers.length === 0 ? (
+          <div className="admin-empty"><span>🔎</span><h3>No se encontraron cuentas</h3><p>Revisa el nombre o carnet e inténtalo de nuevo.</p></div>
+        ) : (
+          <>
+            <p className="admin-user-count">Resultados: {filteredUsers.length}</p>
+            <div className="admin-user-list">{filteredUsers.map((user) => <article key={user.id}><strong>{user.name}</strong><span>Carnet: {user.carnet}</span><span>📍 {user.city && user.department ? `${user.city}, ${user.department}` : "Ubicación aún no registrada"}</span></article>)}</div>
+          </>
         )}
       </section>
       <p className="admin-demo-note">Modo demostración: los pedidos se guardan en el almacenamiento local de este navegador. Para que usuarios y administrador vean cambios desde dispositivos distintos, será necesario conectar la tienda a una API y base de datos compartida.</p>
