@@ -1,3 +1,4 @@
+
 import type { Product } from "../data/products";
 import "./Cart.css";
 
@@ -8,6 +9,7 @@ export interface CartItem {
 
 interface CartProps {
   items: CartItem[];
+  isDistributor: boolean;
   onIncrease: (product: Product) => void;
   onDecrease: (productId: number) => void;
   onContinueShopping: () => void;
@@ -16,35 +18,45 @@ interface CartProps {
 
 function Cart({
   items,
+  isDistributor,
   onIncrease,
   onDecrease,
   onContinueShopping,
   onProceedToPayment,
 }: CartProps) {
   const total = items.reduce(
-    (sum, { product, quantity }) => sum + product.precio * quantity,
-    0,
+    (sum, { product, quantity }) =>
+      sum + product.precio * quantity,
+    0
   );
 
   return (
-    <section className="cart-section" aria-labelledby="cart-title">
+    <section className="cart-section">
       <div className="cart-header">
-        <div>
-          <p className="cart-eyebrow">Tu selección</p>
-          <h2 id="cart-title">Carrito de compras</h2>
-        </div>
-        <button type="button" onClick={onContinueShopping}>
-          Seguir comprando
-        </button>
+        <h2>Mi carrito</h2>
+        <p>
+          {items.reduce((sum, item) => sum + item.quantity, 0)} unidades
+          en total
+        </p>
       </div>
 
+      {isDistributor && (
+        <div className="wholesale-cart-notice">
+          <h3>Pedido mayorista</h3>
+          <p>
+            Se aplica un descuento del 20 % sobre el precio minorista.
+          </p>
+          <p>
+            La compra se realiza en paquetes de 12 unidades por producto.
+          </p>
+        </div>
+      )}
+
       {items.length === 0 ? (
-        <div className="empty-cart">
-          <span aria-hidden="true">🛒</span>
-          <h3>Tu carrito está vacío</h3>
-          <p>Agrega tus juguetes favoritos para verlos aquí.</p>
+        <div className="cart-empty">
+          <p>Tu carrito está vacío.</p>
           <button type="button" onClick={onContinueShopping}>
-            Ver productos
+            Volver al catálogo
           </button>
         </div>
       ) : (
@@ -52,44 +64,81 @@ function Cart({
           <div className="cart-items">
             {items.map(({ product, quantity }) => (
               <article className="cart-item" key={product.id}>
-                <img src={product.imagen} alt={product.nombre} />
-                <div className="cart-item-details">
+                <img
+                  src={product.imagen}
+                  alt={product.nombre}
+                  className="cart-item-image"
+                />
+
+                <div className="cart-item-info">
                   <h3>{product.nombre}</h3>
-                  <p>Bs. {product.precio}</p>
-                </div>
-                <div className="quantity-controls" aria-label={`Cantidad de ${product.nombre}`}>
-                  <button
-                    type="button"
-                    onClick={() => onDecrease(product.id)}
-                    aria-label={`Quitar una unidad de ${product.nombre}`}
+
+                  <p>
+                    Precio unitario: Bs. {product.precio.toFixed(2)}
+                  </p>
+
+                  <p>
+                    Subtotal: Bs. {(product.precio * quantity).toFixed(2)}
+                  </p>
+
+                  {isDistributor && (
+                    <p className="wholesale-label">
+                      Precio mayorista
+                    </p>
+                  )}
+
+                  <div
+                    className="cart-quantity-controls"
+                    aria-label={`Cantidad de ${product.nombre}`}
                   >
-                    −
-                  </button>
-                  <span>{quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => onIncrease(product)}
-                    aria-label={`Agregar una unidad de ${product.nombre}`}
-                  >
-                    +
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => onDecrease(product.id)}
+                      aria-label={`Disminuir ${product.nombre}`}
+                    >
+                      −
+                    </button>
+
+                    <span aria-live="polite">{quantity}</span>
+
+                    <button
+                      type="button"
+                      onClick={() => onIncrease(product)}
+                      aria-label={`Aumentar ${product.nombre}`}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {isDistributor && (
+                    <p className="wholesale-minimum">
+                      Incrementos de 12 unidades
+                    </p>
+                  )}
                 </div>
               </article>
             ))}
           </div>
 
-          <div className="cart-total">
-            <span>Total</span>
-            <strong>Bs. {total}</strong>
-          </div>
+          <div className="cart-summary">
+            <h3>Total: Bs. {total.toFixed(2)}</h3>
 
-          <button
-            type="button"
-            className="proceed-to-payment"
-            onClick={onProceedToPayment}
-          >
-            Continuar al método de pago
-          </button>
+            <div className="cart-actions">
+              <button
+                type="button"
+                onClick={onContinueShopping}
+              >
+                Seguir comprando
+              </button>
+
+              <button
+                type="button"
+                onClick={onProceedToPayment}
+              >
+                Continuar al pago
+              </button>
+            </div>
+          </div>
         </>
       )}
     </section>
