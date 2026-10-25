@@ -1,0 +1,289 @@
+
+/* ===== Página principal ===== */
+.distributor-request-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 56px 24px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse at top left, #ffe4f0 0%, transparent 40%),
+    radial-gradient(ellipse at bottom right, #e2e7ff 0%, transparent 42%),
+    #f8f6fc;
+  color: #352744;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== Tarjeta del formulario ===== */
+.distributor-request-card {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 44px 48px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #eee5f4;
+  border-radius: 26px;
+  box-shadow: 0 20px 60px rgba(75, 48, 103, 0.12);
+}
+
+/* ===== Encabezado ===== */
+.distributor-request-card > header {
+  margin-bottom: 36px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #f0e8f5;
+}
+
+.distributor-request-card > header::before {
+  content: "🧸  MUNDO MÁGICO";
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 9px 14px;
+  border-radius: 30px;
+  background: #f5eaff;
+  color: #8851b3;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.distributor-request-card > header h1 {
+  margin: 0 0 14px;
+  color: #342345;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.distributor-request-card > header p {
+  max-width: 760px;
+  margin: 0;
+  color: #766b81;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ===== Formulario en dos columnas ===== */
+.distributor-request-card form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 26px;
+  row-gap: 12px;
+  align-items: start;
+}
+
+/* Etiquetas */
+.distributor-request-card form label {
+  display: block;
+  align-self: end;
+  margin-top: 8px;
+  color: #443451;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* Campos de texto, select y áreas de texto */
+.distributor-request-card form input:not([type="file"]),
+.distributor-request-card form select,
+.distributor-request-card form textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 14px 15px;
+  box-sizing: border-box;
+  border: 1px solid #e2d7eb;
+  border-radius: 12px;
+  background: #fcfaff;
+  color: #352744;
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.distributor-request-card form textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.65;
+}
+
+.distributor-request-card form input::placeholder,
+.distributor-request-card form textarea::placeholder {
+  color: #a397b0;
+}
+
+.distributor-request-card form input:focus,
+.distributor-request-card form select:focus,
+.distributor-request-card form textarea:focus {
+  border-color: #a16bd0;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(161, 107, 208, 0.13);
+}
+
+/* El archivo PDF ocupa todo el ancho */
+.distributor-request-card form label[for="cvFile"],
+.distributor-request-card form input[type="file"] {
+  grid-column: 1 / -1;
+}
+
+.distributor-request-card form input[type="file"] {
+  width: 100%;
+  min-width: 0;
+  padding: 18px;
+  box-sizing: border-box;
+  border: 2px dashed #d8c6e8;
+  border-radius: 14px;
+  background: #fbf7ff;
+  color: #6d5b7c;
+  font-size: 14px;
+}
+
+.distributor-request-card form input[type="file"]::file-selector-button {
+  margin-right: 14px;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 9px;
+  background: #eee2fa;
+  color: #70429b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.distributor-request-card form input[type="file"]::file-selector-button:hover {
+  background: #e3d0f6;
+}
+
+/* Mensajes informativos y errores */
+.distributor-request-card form > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.distributor-request-error {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #b42336;
+}
+
+/* Botón de envío */
+.distributor-request-card form button,
+.distributor-request-success button {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 14px;
+  padding: 15px 22px;
+  border: none;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #a34fc4, #7764db);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(133, 82, 193, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.distributor-request-card form button:hover,
+.distributor-request-success button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(133, 82, 193, 0.3);
+}
+
+.distributor-request-card form button:focus-visible,
+.distributor-request-success button:focus-visible {
+  outline: 3px solid #c8a3ed;
+  outline-offset: 4px;
+}
+
+/* Pantalla de solicitud enviada */
+.distributor-request-success {
+  padding: 30px;
+  border: 1px solid #c7ecd5;
+  border-radius: 18px;
+  background: #f2fff6;
+  text-align: center;
+}
+
+.distributor-request-success h2 {
+  margin: 0 0 14px;
+  color: #207647;
+  font-size: 26px;
+}
+
+.distributor-request-success p {
+  margin: 0;
+  color: #526c5b;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.distributor-request-success button {
+  margin-top: 24px;
+}
+
+/* Pie de página */
+.distributor-request-footer {
+  margin: 32px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid #f0e8f5;
+  color: #786d81;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.distributor-request-footer a {
+  color: #8950bb;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.distributor-request-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ===== Adaptación para tablets y celulares ===== */
+@media (max-width: 700px) {
+  .distributor-request-page {
+    padding: 24px 14px;
+  }
+
+  .distributor-request-card {
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .distributor-request-card > header {
+    margin-bottom: 26px;
+    padding-bottom: 22px;
+  }
+
+  .distributor-request-card form {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+  }
+
+  .distributor-request-card form label {
+    margin-top: 10px;
+  }
+
+  .distributor-request-card form label[for="cvFile"],
+  .distributor-request-card form input[type="file"],
+  .distributor-request-card form > p,
+  .distributor-request-card form button {
+    grid-column: 1;
+  }
+
+  .distributor-request-success {
+    padding: 24px 18px;
+  }
+}
