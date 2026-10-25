@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,24 +20,45 @@ import { createPurchaseItems } from "../types/purchase";
 
 import "./HomePage.css";
 
+type View = "home" | "cart" | "payment" | "account";
+
 function HomePage() {
   const navigate = useNavigate();
   const user = authRepository.getCurrentUser();
+
+  const isDistributor = user?.role === "DISTRIBUIDOR";
+  const quantityStep = isDistributor ? 12 : 1;
+
   const [search, setSearch] = useState("");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [activeView, setActiveView] = useState<View>("home");
   const [isPurchaseConfirmed, setIsPurchaseConfirmed] = useState(false);
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [notification, setNotification] = useState("");
-  const purchases = user ? purchaseRepository.getByUserId(user.id) : [];
 
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const quantities = Object.fromEntries(cartItems.map(({ product, quantity }) => [product.id, quantity])) as Record<number, number>;
+  const purchases = user
+    ? purchaseRepository.getByUserId(user.id)
+    : [];
+
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const quantities = Object.fromEntries(
+    cartItems.map(({ product, quantity }) => [
+      product.id,
+      quantity,
+    ])
+  ) as Record<number, number>;
 
   useEffect(() => {
     if (!notification) return;
-    const timeoutId = window.setTimeout(() => setNotification(""), 3500);
+
+    const timeoutId = window.setTimeout(
+      () => setNotification(""),
+      3500
+    );
+
     return () => window.clearTimeout(timeoutId);
   }, [notification]);
 
@@ -44,25 +66,65 @@ function HomePage() {
     product.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
+  const getProductForCart = (product: Product): Product => ({
+    ...product,
+    precio: isDistributor
+      ? Math.round(product.precio * 0.8 * 100) / 100
+      : product.precio,
+  });
+
   const handleAddProduct = (product: Product) => {
+    const productForCart = getProductForCart(product);
+
     setCartItems((currentItems) => {
-      const existingItem = currentItems.find((item) => item.product.id === product.id);
+      const existingItem = currentItems.find(
+        (item) => item.product.id === product.id
+      );
+
       if (existingItem) {
-        return currentItems.map((item) => item.product.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item);
+        return currentItems.map((item) =>
+          item.product.id === product.id
+            ? {
+                ...item,
+                product: productForCart,
+                quantity: item.quantity + quantityStep,
+              }
+            : item
+        );
       }
-      return [...currentItems, { product, quantity: 1 }];
+
+      return [
+        ...currentItems,
+        {
+          product: productForCart,
+          quantity: quantityStep,
+        },
+      ];
     });
-    setNotification(`${product.nombre} se agregó al carrito`);
+
+    setNotification(
+      isDistributor
+        ? `${product.nombre}: se agregaron 12 unidades al carrito.`
+        : `${product.nombre} se agregó al carrito.`
+    );
   };
 
   const handleDecreaseProduct = (productId: number) => {
-    setCartItems((currentItems) => currentItems.flatMap((item) => {
-      if (item.product.id !== productId) return [item];
-      if (item.quantity === 1) return [];
-      return [{ ...item, quantity: item.quantity - 1 }];
-    }));
+    setCartItems((currentItems) =>
+      currentItems.flatMap((item) => {
+        if (item.product.id !== productId) {
+          return [item];
+        }
+
+        const newQuantity = item.quantity - quantityStep;
+
+        if (newQuantity <= 0) {
+          return [];
+        }
+
+        return [{ ...item, quantity: newQuantity }];
+      })
+    );
   };
 
   const handleLogout = () => {
@@ -70,18 +132,45 @@ function HomePage() {
     navigate("/login", { replace: true });
   };
 
+const handleUpdateLocation = (
+  department: string,
+  city: string
+) => {
+  if (!user) return;
+
+  const updatedUser = authRepository.updateProfile(user.id, {
+    department: department.trim(),
+    city: city.trim(),
+  });
+
+  if (!updatedUser) {
+    setNotification(
+      "No se pudo guardar la ubicación. Vuelve a iniciar sesión."
+    );
+    return;
+  }
+
+  setNotification("Tu ubicación se guardó correctamente.");
+};
+
   const handleConfirmPurchase = (paymentMethod: string) => {
     if (!user) {
       setNotification("Inicia sesión para registrar tu pedido.");
       navigate("/login");
       return;
     }
-    if (cartItems.length === 0) return;
+
+    if (cartItems.length === 0) {
+      setNotification("Tu carrito está vacío.");
+      setActiveView("cart");
+      return;
+    }
+
     if (!user.department || !user.city) {
-      setNotification("Primero completa tu departamento y ciudad en Mi cuenta.");
-      setIsPaymentOpen(false);
-      setIsPurchaseConfirmed(false);
-      setIsAccountOpen(true);
+      setNotification(
+        "Completa tu departamento y ciudad en la sección Cuenta antes de continuar."
+      );
+      setActiveView("account");
       return;
     }
 
@@ -89,24 +178,38 @@ function HomePage() {
       user.id,
       createPurchaseItems(cartItems),
       paymentMethod,
-      { department: user.department, city: user.city },
+      {
+        department: user.department,
+        city: user.city,
+      }
     );
+
     setCartItems([]);
-    setIsCartOpen(false);
     setIsPurchaseConfirmed(true);
-    setIsAccountOpen(false);
-    setNotification("Pedido registrado. Está pendiente de revisión del administrador.");
+    setActiveView("payment");
+    setNotification(
+      "Pedido registrado. Está pendiente de revisión del administrador."
+    );
   };
 
   if (user?.role === "ADMIN") {
-    return <main className="home-page admin-home"><AdminDashboard onLogout={handleLogout} /></main>;
+    return (
+      <main className="home-page admin-home">
+        <AdminDashboard onLogout={handleLogout} />
+      </main>
+    );
   }
 
   return (
     <div className="home-page">
       {notification && (
-        <div className="cart-notification" role="status" aria-live="polite">
-          <span aria-hidden="true">✓</span>{notification}
+        <div
+          className="cart-notification"
+          role="status"
+          aria-live="polite"
+        >
+          <span aria-hidden="true">✓</span>
+          {notification}
         </div>
       )}
 
@@ -115,85 +218,75 @@ function HomePage() {
         user={user}
         onLogout={handleLogout}
         onCartClick={() => {
-          setIsCartOpen(true);
-          setIsPaymentOpen(false);
-          setIsAccountOpen(false);
+          setActiveView("cart");
+          setIsPurchaseConfirmed(false);
         }}
       />
 
       <main>
-        {isPaymentOpen ? (
-          <PaymentMethods
-            items={cartItems}
-            isPurchaseConfirmed={isPurchaseConfirmed}
-            onBackToCart={() => { setIsPaymentOpen(false); setIsPurchaseConfirmed(false); }}
-            onConfirm={handleConfirmPurchase}
-            onViewPurchases={() => {
-              setIsPaymentOpen(false);
-              setIsPurchaseConfirmed(false);
-              setIsAccountOpen(true);
-            }}
-          />
-        ) : isAccountOpen ? (
-          <Account
-            user={user}
-            purchases={purchases}
-            onUpdateLocation={(department, city) => {
-              authRepository.updateProfile(user!.id, { department, city });
-              setNotification("Tu ubicación se guardó correctamente.");
-            }}
-          />
-        ) : isCartOpen ? (
-          <Cart
-            items={cartItems}
-            onIncrease={handleAddProduct}
-            onDecrease={handleDecreaseProduct}
-            onContinueShopping={() => {
-              setIsCartOpen(false);
-              setIsPaymentOpen(false);
-              setIsAccountOpen(false);
-            }}
-            onProceedToPayment={() => {
-              if (!user) {
-                setNotification("Inicia sesión para registrar tu pedido.");
-                navigate("/login");
-                return;
-              }
-              setIsPaymentOpen(true);
-              setIsPurchaseConfirmed(false);
-            }}
-          />
-        ) : (
+        {activeView === "home" && (
           <>
-            <SearchBar search={search} setSearch={setSearch} />
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+            />
             <HeroBanner />
             <Categories />
             <Products
               products={filteredProducts}
               quantities={quantities}
+              isDistributor={isDistributor}
               onAdd={handleAddProduct}
               onDecrease={handleDecreaseProduct}
             />
           </>
         )}
+
+        {activeView === "cart" && (
+          <Cart
+            items={cartItems}
+            isDistributor={isDistributor}
+            onIncrease={handleAddProduct}
+            onDecrease={handleDecreaseProduct}
+            onContinueShopping={() => setActiveView("home")}
+            onProceedToPayment={() => {
+              setIsPurchaseConfirmed(false);
+              setActiveView("payment");
+            }}
+          />
+        )}
+
+        {activeView === "payment" && (
+          <PaymentMethods
+            items={cartItems}
+            isPurchaseConfirmed={isPurchaseConfirmed}
+            onBackToCart={() => setActiveView("cart")}
+            onConfirm={handleConfirmPurchase}
+            onViewPurchases={() => {
+              setIsPurchaseConfirmed(false);
+              setActiveView("account");
+            }}
+          />
+        )}
+
+        {activeView === "account" && (
+          <Account
+            user={user}
+            purchases={purchases}
+            onUpdateLocation={handleUpdateLocation}
+          />
+        )}
       </main>
 
       <BottomNav
-        activeView={isAccountOpen ? "account" : isPaymentOpen ? "payment" : isCartOpen ? "cart" : "home"}
-        onCartClick={() => { setIsCartOpen(true); setIsPaymentOpen(false); setIsAccountOpen(false); }}
-        onHomeClick={() => { setIsCartOpen(false); setIsPaymentOpen(false); setIsAccountOpen(false); }}
-        onPaymentClick={() => {
-          if (!user) {
-            setNotification("Inicia sesión para registrar tu pedido.");
-            navigate("/login");
-            return;
-          }
-          setIsCartOpen(false);
-          setIsPaymentOpen(true);
+        activeView={activeView}
+        onHomeClick={() => {
+          setActiveView("home");
           setIsPurchaseConfirmed(false);
-          setIsAccountOpen(false);
         }}
-        onAccountClick={() => { setIsCartOpen(false); setIsPaymentOpen(false); setIsAccountOpen(true); }}
+        onCartClick={() => setActiveView("cart")}
+        onPaymentClick={() => setActiveView("payment")}
+        onAccountClick={() => setActiveView("account")}
       />
     </div>
   );

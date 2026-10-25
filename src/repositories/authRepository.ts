@@ -1,6 +1,7 @@
 
 import initialUsers from "../data/users.json";
 import { storageService } from "../services/storageService";
+import { distributorRepository } from "./distributorRepository";
 import type {
   LoginCredentials,
   User,
@@ -15,9 +16,11 @@ const REGISTERED_USERS_KEY = "app_registered_users";
 const users = initialUsers as UserRecord[];
 
 function getProfiles(): Record<string, Pick<User, "department" | "city">> {
-  return storageService.get<
-    Record<string, Pick<User, "department" | "city">>
-  >(PROFILES_KEY) ?? {};
+  return (
+    storageService.get<
+      Record<string, Pick<User, "department" | "city">>
+    >(PROFILES_KEY) ?? {}
+  );
 }
 
 function getRegisteredUsers(): UserRecord[] {
@@ -28,7 +31,16 @@ function getAllRecords(): UserRecord[] {
   return [...users, ...getRegisteredUsers()];
 }
 
+function isDistributorApproved(carnet: string): boolean {
+  return distributorRepository.getAll().some(
+    (application) =>
+      application.carnet.trim() === carnet.trim() &&
+      application.status === "APROBADA"
+  );
+}
+
 export const authRepository = {
+  // Registro normal de usuarios
   register(data: {
     name: string;
     carnet: string;
@@ -38,10 +50,10 @@ export const authRepository = {
     const carnet = data.carnet.trim();
     const password = data.password;
 
-    if (!name || !carnet || !password) return null;
+    if (!name || !carnet || !password.trim()) return null;
 
     const carnetExists = getAllRecords().some(
-      (user) => user.carnet === carnet
+      (user) => user.carnet.trim() === carnet
     );
 
     if (carnetExists) return null;
@@ -67,10 +79,75 @@ export const authRepository = {
     };
   },
 
-  login(credentials: LoginCredentials, expectedRole: UserRole): User | null {
+  // Registro de distribuidores con solicitud aprobada
+  registerDistributor(data: {
+    carnet: string;
+    password: string;
+  }): User | null {
+    const carnet = data.carnet.trim();
+    const password = data.password;
+
+    if (!carnet || !password.trim()) return null;
+
+    // Solo puede registrarse quien tenga la solicitud aprobada
+    if (!isDistributorApproved(carnet)) return null;
+
+    // Evita crear dos cuentas con el mismo carnet
+    const carnetExists = getAllRecords().some(
+      (user) => user.carnet.trim() === carnet
+    );
+
+    if (carnetExists) return null;
+
+    const application = distributorRepository
+      .getAll()
+      .find(
+        (item) =>
+          item.carnet.trim() === carnet &&
+          item.status === "APROBADA"
+      );
+
+    if (!application) return null;
+
+    const newDistributor: UserRecord = {
+      id: `distributor-${Date.now()}`,
+      name: application.representative.trim(),
+      carnet,
+      password,
+      role: "DISTRIBUIDOR",
+    };
+
+    storageService.set<UserRecord[]>(
+      REGISTERED_USERS_KEY,
+      [...getRegisteredUsers(), newDistributor]
+    );
+
+    return {
+      id: newDistributor.id,
+      name: newDistributor.name,
+      carnet: newDistributor.carnet,
+      role: "DISTRIBUIDOR",
+    };
+  },
+
+  // Inicio de sesión de usuarios, administradores y distribuidores
+  login(
+    credentials: LoginCredentials,
+    expectedRole: UserRole
+  ): User | null {
+    const carnet = credentials.carnet.trim();
+
+    // Un distribuidor debe tener una solicitud aprobada
+    if (
+      expectedRole === "DISTRIBUIDOR" &&
+      !isDistributorApproved(carnet)
+    ) {
+      return null;
+    }
+
     const foundUser = getAllRecords().find(
       (user) =>
-        user.carnet === credentials.carnet.trim() &&
+        user.carnet.trim() === carnet &&
         user.password === credentials.password &&
         user.role === expectedRole
     );
@@ -89,6 +166,7 @@ export const authRepository = {
     };
 
     storageService.set<User>(SESSION_KEY, sessionUser);
+
     return sessionUser;
   },
 

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import type { FormEventHandler } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import LoginForm from "../../components/auth/LoginForm";
 import { authRepository } from "../../repositories/authRepository";
 import type { LoginCredentials, UserRole } from "../../types/auth";
@@ -13,6 +13,7 @@ function LoginPage() {
   const [errors, setErrors] = useState<Record<UserRole, string>>({
     ADMIN: "",
     USUARIO: "",
+    DISTRIBUIDOR: "",
   });
 
   const [showRegister, setShowRegister] = useState(false);
@@ -29,7 +30,11 @@ function LoginPage() {
     credentials: LoginCredentials,
     role: UserRole
   ) => {
-    setErrors({ ADMIN: "", USUARIO: "" });
+    setErrors({
+      ADMIN: "",
+      USUARIO: "",
+      DISTRIBUIDOR: "",
+    });
 
     const user = authRepository.login(credentials, role);
 
@@ -39,7 +44,9 @@ function LoginPage() {
         [role]:
           role === "ADMIN"
             ? "Las credenciales no corresponden a una cuenta administradora."
-            : "El carnet o la contraseña de usuario son incorrectos.",
+            : role === "DISTRIBUIDOR"
+              ? "El carnet o la contraseña son incorrectos, o tu solicitud aún no está aprobada."
+              : "El carnet o la contraseña de usuario son incorrectos.",
       }));
       return;
     }
@@ -60,9 +67,7 @@ function LoginPage() {
     }
 
     if (password.length < 6) {
-      setRegisterError(
-        "La contraseña debe tener al menos 6 caracteres."
-      );
+      setRegisterError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
 
@@ -104,6 +109,7 @@ function LoginPage() {
         </header>
 
         <div className="login-panels">
+          {/* PANEL DE USUARIOS */}
           <section className="login-page-card login-panel">
             <div className="login-panel-heading">
               <span className="login-panel-icon">👤</span>
@@ -121,10 +127,7 @@ function LoginPage() {
 
             {showRegister ? (
               <div className="login-form-container">
-                <form
-                  className="login-form"
-                  onSubmit={handleRegister}
-                >
+                <form className="login-form" onSubmit={handleRegister}>
                   <div className="login-form-group">
                     <label htmlFor="register-name">Nombre completo</label>
                     <input
@@ -215,6 +218,7 @@ function LoginPage() {
             )}
           </section>
 
+          {/* PANEL DE ADMINISTRADORES */}
           <section className="login-page-card login-panel admin-login-panel">
             <div className="login-panel-heading">
               <span className="login-panel-icon">🛡️</span>
@@ -227,6 +231,39 @@ function LoginPage() {
               error={errors.ADMIN}
               onSubmit={handleLogin}
             />
+          </section>
+
+          {/* PANEL DE DISTRIBUIDORES */}
+          <section className="login-page-card login-panel distributor-login-panel">
+            <div className="login-panel-heading">
+              <span className="login-panel-icon">🏪</span>
+              <h2>Ingreso de distribuidores</h2>
+              <p>
+                Acceso para negocios autorizados a comprar al por mayor
+              </p>
+            </div>
+
+            <LoginForm
+              role="DISTRIBUIDOR"
+              error={errors.DISTRIBUIDOR}
+              onSubmit={handleLogin}
+            />
+
+            <div className="login-form-container">
+              <button
+                type="button"
+                onClick={() => navigate("/solicitud-distribuidor")}
+              >
+                Solicitar cuenta de distribuidor
+              </button>
+
+              <p>
+                ¿Tu solicitud ya fue aprobada?{" "}
+                <Link to="/registro-distribuidor">
+                  Crear cuenta de distribuidor
+                </Link>
+              </p>
+            </div>
           </section>
         </div>
 

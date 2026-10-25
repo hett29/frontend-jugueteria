@@ -1,0 +1,139 @@
+
+.distributor-register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #fff4fa, #eef4ff);
+}
+
+.distributor-register-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 36px;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 18px 55px rgba(48, 36, 85, 0.12);
+}
+
+.distributor-register-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.distributor-register-icon {
+  font-size: 42px;
+}
+
+.distributor-register-eyebrow {
+  margin: 8px 0;
+  color: #7950b5;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.distributor-register-heading h1 {
+  margin: 8px 0 12px;
+  color: #29223b;
+  font-size: 27px;
+}
+
+.distributor-register-heading > p:last-child {
+  color: #716b7d;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.distributor-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.distributor-register-form label {
+  margin-top: 8px;
+  color: #383147;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.distributor-register-form input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #ded8e9;
+  border-radius: 10px;
+  background: #fff;
+  color: #29223b;
+  font: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.distributor-register-form input:focus {
+  border-color: #8054bd;
+  box-shadow: 0 0 0 3px rgba(128, 84, 189, 0.12);
+}
+
+.distributor-register-form button {
+  margin-top: 16px;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #7950b5;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.distributor-register-form button:hover {
+  background: #653c9e;
+}
+
+.distributor-register-message {
+  margin: 8px 0 0;
+  padding: 12px;
+  border-radius: 9px;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.distributor-register-message.error {
+  color: #a32335;
+  background: #fff0f1;
+}
+
+.distributor-register-message.success {
+  color: #176b3a;
+  background: #eaf8ef;
+}
+
+.distributor-register-footer {
+  margin: 20px 0 0;
+  text-align: center;
+  color: #716b7d;
+  font-size: 13px;
+}
+
+.distributor-register-footer a {
+  color: #7950b5;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.distributor-register-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .distributor-register-card {
+    padding: 26px 20px;
+  }
+
+  .distributor-register-heading h1 {
+    font-size: 23px;
+  }
+}
