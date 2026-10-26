@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import type { FormEventHandler } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import LoginForm from "../../components/auth/LoginForm";
 import { authRepository } from "../../repositories/authRepository";
 import type { LoginCredentials, UserRole } from "../../types/auth";
