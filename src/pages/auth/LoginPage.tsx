@@ -257,12 +257,6 @@ function LoginPage() {
                 Solicitar cuenta de distribuidor
               </button>
 
-              <p>
-                ¿Tu solicitud ya fue aprobada?{" "}
-                <Link to="/registro-distribuidor">
-                  Crear cuenta de distribuidor
-                </Link>
-              </p>
             </div>
           </section>
         </div>
